@@ -55,9 +55,21 @@ function ExpandedContent({ milestone }: { milestone: Milestone }) {
           </p>
           <ul className="space-y-1.5">
             {milestone.inputs.map((input, i) => (
-              <li key={i} className="flex items-start gap-2 text-[13px] text-foreground">
+              <li key={i} className="flex items-start gap-2 text-[13px]">
                 <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand" />
-                {input}
+                {input.url ? (
+                  <a
+                    href={input.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brand underline underline-offset-2 hover:opacity-75"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {input.label}
+                  </a>
+                ) : (
+                  <span className="text-muted-foreground italic">{input.label}</span>
+                )}
               </li>
             ))}
           </ul>
@@ -112,9 +124,21 @@ function ExpandedContent({ milestone }: { milestone: Milestone }) {
           </p>
           <ul className="space-y-1.5">
             {milestone.complementary.map((item, i) => (
-              <li key={i} className="flex items-start gap-2 text-[13px] text-muted-foreground">
+              <li key={i} className="flex items-start gap-2 text-[13px]">
                 <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-line" />
-                {item}
+                {item.url ? (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground underline underline-offset-2 hover:opacity-75"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <span className="text-muted-foreground italic">{item.label}</span>
+                )}
               </li>
             ))}
           </ul>
