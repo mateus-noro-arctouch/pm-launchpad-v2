@@ -164,12 +164,11 @@ function FridayDropCard({ milestone }: { milestone: Milestone }) {
   return (
     <article
       className={cn(
-        "group relative overflow-hidden rounded-xl border border-brand/30 bg-brand-muted/40 px-5 py-4 transition-shadow",
-        locked ? "opacity-60" : "cursor-pointer hover:shadow-md",
+        "group relative overflow-hidden rounded-xl border border-brand/30 bg-brand-muted/40 px-5 py-4 transition-all duration-200",
+        locked ? "opacity-60" : "cursor-pointer hover:-translate-y-0.5 hover:shadow-md",
       )}
       onClick={() => hasContent && !locked && setOpen((o) => !o)}
     >
-      <span aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-brand" />
       <div className="flex items-start justify-between gap-3">
         <h3 className="flex items-center gap-2 text-[15px] font-semibold text-foreground">
           <Rocket className="size-4 shrink-0 text-brand" />
@@ -205,23 +204,19 @@ export function MilestoneCard({ milestone }: { milestone: Milestone }) {
   }
 
   const { state } = milestone
-  const edgeColor =
-    state === "done" ? "bg-foreground" : state === "current" ? "bg-brand" : "bg-line"
   const hasContent = !!(milestone.inputs || milestone.tip || milestone.scenarios)
   const [open, setOpen] = useState(state === "current")
 
   return (
     <article
       className={cn(
-        "group relative overflow-hidden rounded-xl border bg-card px-5 py-4 shadow-sm transition-shadow",
+        "group relative overflow-hidden rounded-xl border bg-card px-5 py-4 shadow-sm transition-all duration-200",
         state === "current" ? "border-brand shadow-md" : "border-line",
         state === "locked" && "opacity-60",
-        hasContent && "cursor-pointer hover:shadow-md",
+        hasContent && "cursor-pointer hover:-translate-y-0.5 hover:shadow-md",
       )}
       onClick={() => hasContent && setOpen((o) => !o)}
     >
-      <span aria-hidden className={cn("absolute inset-y-0 left-0 w-1", edgeColor)} />
-
       {/* Header row */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">

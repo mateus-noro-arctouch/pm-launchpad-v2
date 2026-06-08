@@ -1,9 +1,77 @@
+import { Check, Lock, Rocket } from "lucide-react"
 import { MilestoneCard } from "@/components/milestone-card"
-import type { Week } from "@/lib/journey-data"
+import { cn } from "@/lib/utils"
+import type { Milestone, Week } from "@/lib/journey-data"
 
-export function WeekSection({ week }: { week: Week }) {
+function RailNode({ milestone }: { milestone: Milestone }) {
+  const { state, fridayDrop } = milestone
+
+  if (fridayDrop) {
+    return (
+      <span
+        aria-hidden
+        className={cn(
+          "relative z-10 mt-3 flex size-7 items-center justify-center rounded-full",
+          state === "locked"
+            ? "border border-line bg-card text-brand/40"
+            : "bg-brand text-white",
+          state === "current" && "lp-glow",
+        )}
+      >
+        <Rocket className="size-3.5" />
+      </span>
+    )
+  }
+
   return (
-    <section className="mt-10 first:mt-0">
+    <span
+      aria-hidden
+      className={cn(
+        "relative z-10 mt-3 flex size-7 items-center justify-center rounded-full",
+        state === "done" && "bg-foreground text-white",
+        state === "current" && "bg-brand text-white lp-glow",
+        state === "locked" && "border border-line bg-card text-muted-foreground",
+      )}
+    >
+      {state === "done" && <Check className="size-3.5" strokeWidth={3} />}
+      {state === "current" && <span className="size-2 rounded-full bg-white" />}
+      {state === "locked" && <Lock className="size-3" />}
+    </span>
+  )
+}
+
+function RailLine({
+  milestone,
+  isFirst,
+  isLast,
+}: {
+  milestone: Milestone
+  isFirst: boolean
+  isLast: boolean
+}) {
+  const { state } = milestone
+  const color =
+    state === "done"
+      ? "bg-brand"
+      : state === "current"
+        ? "bg-gradient-to-b from-brand to-line"
+        : "bg-line"
+
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "absolute left-1/2 w-0.5 -translate-x-1/2",
+        color,
+        isFirst ? "top-7 bottom-0" : isLast ? "top-0 h-7" : "top-0 bottom-0",
+      )}
+    />
+  )
+}
+
+export function WeekSection({ week, index }: { week: Week; index: number }) {
+  return (
+    <section className="mt-12 first:mt-0">
 
       {/* Monday re-entry callout (Week 2 & 3) */}
       {week.mondayReentry && (
@@ -15,32 +83,54 @@ export function WeekSection({ week }: { week: Week }) {
         </div>
       )}
 
-      {/* Week header */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            {week.label}
-          </span>
-          <h2 className="text-balance text-xl font-bold text-foreground">{week.theme}</h2>
+      {/* Stage header */}
+      <div className="flex items-start gap-4">
+        <span
+          aria-hidden
+          className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-foreground text-sm font-bold text-white"
+        >
+          {index + 1}
+        </span>
+        <div className="flex-1">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                {week.label}
+              </span>
+              <h2 className="text-balance text-xl font-bold text-foreground">{week.theme}</h2>
+            </div>
+            <span className="mt-1 shrink-0 text-sm font-semibold text-brand">
+              {week.done}/{week.total} done
+            </span>
+          </div>
           <p className="mt-2 max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground">
             {week.description}
           </p>
         </div>
-        <span className="mt-1 shrink-0 text-sm font-semibold text-brand">
-          {week.done}/{week.total} done
-        </span>
       </div>
 
-      {/* Milestones */}
-      <div className="mt-5 flex flex-col gap-3">
-        {week.milestones.map((milestone) => (
-          <MilestoneCard key={milestone.id} milestone={milestone} />
+      {/* Trajectory rail + milestones */}
+      <ul className="relative mt-5">
+        {week.milestones.map((milestone, i) => (
+          <li key={milestone.id} className="relative flex gap-4 pb-3 last:pb-0">
+            <div className="relative flex w-8 shrink-0 justify-center">
+              <RailLine
+                milestone={milestone}
+                isFirst={i === 0}
+                isLast={i === week.milestones.length - 1}
+              />
+              <RailNode milestone={milestone} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <MilestoneCard milestone={milestone} />
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
       {/* End-of-week reflection */}
       {week.reflection && (
-        <div className="mt-5 rounded-xl border border-line bg-card px-5 py-4">
+        <div className="ml-12 mt-3 rounded-xl border border-line bg-card px-5 py-4">
           <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
             End-of-week reflection
           </p>
