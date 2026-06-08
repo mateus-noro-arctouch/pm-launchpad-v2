@@ -1,44 +1,29 @@
-"use client"
-
-import { useState } from "react"
-import { ChevronDown } from "lucide-react"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { cn } from "@/lib/utils"
 import { MilestoneCard } from "@/components/milestone-card"
 import type { Week } from "@/lib/journey-data"
 
 export function WeekSection({ week }: { week: Week }) {
-  const [open, setOpen] = useState(true)
-
   return (
-    <Collapsible open={open} onOpenChange={setOpen} className="py-8">
-      <CollapsibleTrigger className="group flex w-full items-start justify-between gap-4 text-left">
+    <section className="mt-10 first:mt-0">
+      <div className="flex items-start justify-between gap-4">
         <div>
           <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             {week.label}
           </span>
-          <h2 className="text-balance text-xl font-semibold text-foreground">{week.theme}</h2>
+          <h2 className="text-balance text-xl font-bold text-foreground">{week.theme}</h2>
           <p className="mt-1 max-w-xl text-pretty text-sm text-muted-foreground">
             {week.description}
           </p>
         </div>
-        <ChevronDown
-          className={cn(
-            "mt-1 size-5 shrink-0 text-muted-foreground transition-transform",
-            open && "rotate-180",
-          )}
-        />
-      </CollapsibleTrigger>
+        <span className="mt-1 shrink-0 text-sm font-semibold text-brand">
+          {week.done}/{week.total} done
+        </span>
+      </div>
 
-      <CollapsibleContent className="mt-5 flex flex-col gap-3">
+      <div className="mt-5 flex flex-col gap-3">
         {week.milestones.map((milestone) => (
           <MilestoneCard key={milestone.id} milestone={milestone} />
         ))}
-      </CollapsibleContent>
-    </Collapsible>
+      </div>
+    </section>
   )
 }

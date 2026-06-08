@@ -7,9 +7,9 @@ export default function JourneyHomePage() {
     <main className="min-h-screen bg-background">
       <AppHeader />
 
-      <div className="mx-auto max-w-3xl px-6 py-10">
+      <div className="mx-auto max-w-2xl px-6 py-10">
         <div className="pb-2">
-          <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground">
+          <h1 className="text-balance text-2xl font-bold tracking-tight text-foreground">
             Welcome aboard, {pmName}
           </h1>
           <p className="mt-1.5 text-pretty text-muted-foreground">
@@ -17,11 +17,9 @@ export default function JourneyHomePage() {
           </p>
         </div>
 
-        <div className="divide-y">
-          {journey.map((week) => (
-            <WeekSection key={week.id} week={week} />
-          ))}
-        </div>
+        {journey.map((week) => (
+          <WeekSection key={week.id} week={week} />
+        ))}
       </div>
     </main>
   )
