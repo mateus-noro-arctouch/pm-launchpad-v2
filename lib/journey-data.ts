@@ -6,6 +6,11 @@ export interface Subtopic {
   checked: boolean
 }
 
+export interface Scenario {
+  id: string
+  text: string
+}
+
 export interface Milestone {
   id: string
   code: string
@@ -16,6 +21,8 @@ export interface Milestone {
   subtopics?: Subtopic[]
   inputs?: string[]
   tip?: string
+  scenarios?: Scenario[]
+  complementary?: string[]
 }
 
 export interface Week {
@@ -23,6 +30,8 @@ export interface Week {
   label: string
   theme: string
   description: string
+  mondayReentry?: string
+  reflection?: string
   done: number
   total: number
   milestones: Milestone[]
@@ -53,7 +62,10 @@ export const journey: Week[] = [
     id: "week-1",
     label: "Week 1",
     theme: "Corporate & Foundations",
-    description: "Get settled, meet the team, and prepare for your PM journey.",
+    description:
+      "This week is about getting settled. Your focus is the corporate onboarding — meeting the team, setting up your tools, and understanding the company. No project deliverables yet. The week ends with a kickoff moment that launches your PM study case and gets you ready for Week 2.",
+    reflection:
+      "What stood out this week? What questions do you have about the company, the team, or the project? Bring these to your first buddy 1:1.",
     done: 5,
     total: 5,
     milestones: [
@@ -61,7 +73,8 @@ export const journey: Week[] = [
         id: "w1-m1",
         code: "M1",
         title: "Corporate onboarding",
-        description: "Your HR onboarding is the priority this week.",
+        description:
+          "Your personal HR onboarding is your priority this week. Complete all mandatory steps, sign documents, join the right channels, and attend the scheduled sessions.",
         state: "done",
         subtopics: [inputs(true)],
         inputs: ["Your personal HR onboarding page (generated per hire by the HR team)"],
@@ -70,7 +83,8 @@ export const journey: Week[] = [
         id: "w1-m2",
         code: "M2",
         title: "Tool setup & hours logging",
-        description: "Get your PM toolset running before Week 2.",
+        description:
+          "Getting your tools up and running early avoids blockers in Week 2. You need access to the PM toolset and a basic understanding of how hours are logged.",
         state: "done",
         subtopics: [inputs(true)],
         inputs: [
@@ -84,7 +98,8 @@ export const journey: Week[] = [
         id: "w1-m3",
         code: "M3",
         title: "Meet the team & map the org",
-        description: "Build relationships early — they compound.",
+        description:
+          "Building relationships early is one of the most valuable things you can do in your first week. Knowing who's who and how the org is structured will help you navigate everything that follows.",
         state: "done",
         subtopics: [inputs(true)],
         inputs: [
@@ -98,7 +113,8 @@ export const journey: Week[] = [
         id: "w1-m4",
         code: "M4",
         title: "Company & role orientation",
-        description: "Understand where you fit and how the career path works.",
+        description:
+          "Understanding where you fit in the company, how the career path works, and how ArcTouch operates gives you context that makes every future interaction more meaningful.",
         state: "done",
         subtopics: [inputs(true)],
         inputs: [
@@ -112,7 +128,7 @@ export const journey: Week[] = [
         code: "M5",
         title: "Friday kickoff",
         description:
-          "Your study case starts Monday. Here's what's coming and how to make the most of Week 2.",
+          "Congratulations on completing your first week. Starting Monday, you'll work on a practical PM study case using a real ArcTouch project — Lonely Planet — as your canvas. Over the next two weeks you'll practice the full PM lifecycle: from sales handoff to user story mapping. By the end you'll be ready to jump into a real client project with confidence.",
         state: "done",
         fridayDrop: true,
         inputs: [
@@ -120,7 +136,7 @@ export const journey: Week[] = [
           "Notion: 'Understanding the Scope of Work'",
           "Notion: 'How projects start at ArcTouch'",
         ],
-        tip: "Pick your growth focus: choose the PM area(s) you'd most like to strengthen — client-facing situations · organizing product artifacts · product craft · delivery & process. Exercises that build your choice get tagged along the way.",
+        tip: "Pick your growth focus: choose the PM area(s) you'd most like to strengthen — client-facing situations · organizing product artifacts · product craft · delivery & process. Exercises that build your choice get tagged along the way. Simple, private, just for you — not a test.",
       },
     ],
   },
@@ -129,7 +145,11 @@ export const journey: Week[] = [
     label: "Week 2",
     theme: "Case Begins",
     description:
-      "Dive into the Lonely Planet project: set up your home base, run the first client-facing moments.",
+      "This week you dive into the project. You'll set up the project's home base, practice the first two client-facing moments, and start exploring the product to build your discovery and story map foundation. Everything you produce this week lives on your Project Page.",
+    mondayReentry:
+      "Last week you got set up, met the team, and read the Lonely Planet SOW. Now the project gets real. Here's what this week looks like.",
+    reflection:
+      "What did you learn from the handoff and kickoff that surprised you? What do you now understand about Lonely Planet's users that changes how you'd approach the story map? Bring these to your buddy 1:1.",
     done: 2,
     total: 7,
     milestones: [
@@ -137,7 +157,8 @@ export const journey: Week[] = [
         id: "w2-m1",
         code: "M1",
         title: "Project Page",
-        description: "Single source of truth for everything on this project.",
+        description:
+          "The project page is the single source of truth for everything related to the project — meetings, team info, links, context, and all your deliverables. Creating it first is a mandatory habit.",
         state: "done",
         subtopics: [inputs(true), deliverable(true)],
         inputs: [
@@ -150,7 +171,8 @@ export const journey: Week[] = [
         id: "w2-m2",
         code: "M2",
         title: "Sales handoff",
-        description: "Take ownership from the sales team.",
+        description:
+          "The sales handoff is where you take ownership of the project from the sales team. Knowing what to ask and how to capture the right information sets the foundation for everything that follows.",
         state: "current",
         subtopics: [inputs(true), deliverable(false), buddy(false)],
         inputs: [
@@ -162,7 +184,8 @@ export const journey: Week[] = [
         id: "w2-m3",
         code: "M3",
         title: "Kickoffs",
-        description: "Align the team and set client expectations.",
+        description:
+          "The kickoffs — internal and client-facing — are where you align the team and set expectations. Preparing a solid deck and running the meeting with confidence is one of the most visible things a PM does early in a project.",
         state: "locked",
         subtopics: [inputs(false), deliverable(false), buddy(false)],
         inputs: [
@@ -175,15 +198,20 @@ export const journey: Week[] = [
         id: "w2-m4",
         code: "M4",
         title: "Friday discovery drop",
-        description: "Real Lonely Planet discovery material drops here before Week 3.",
+        description:
+          "Great work this week. Before you start the story map in Week 3, you need to understand who Lonely Planet's users are and what the team already knows about them. This material gives you the real discovery context — not assumptions.",
         state: "locked",
         fridayDrop: true,
         inputs: [
-          "Lonely Planet Figma — personas",
+          "Lonely Planet Figma — personas [PLACEHOLDER: link]",
           "Target audience research and studies",
           "User pain points prioritized against app features (output of a real discovery session)",
         ],
         tip: "Read and digest this material over the end of the week. You don't need to produce anything yet — just understand it. Week 3 starts with this context in hand.",
+        complementary: [
+          "Start using Jira and Mavenlink on the project",
+          "AI for PMs — sessions 0–1 (light read)",
+        ],
       },
     ],
   },
@@ -191,7 +219,12 @@ export const journey: Week[] = [
     id: "week-3",
     label: "Week 3",
     theme: "Build",
-    description: "Close out the core deliverables and handle a real project challenge.",
+    description:
+      "This week you close out the core deliverables and practice handling real project situations. You come in already warmed up from the discovery material delivered at the end of Week 2. Start the week with the status report, finish the story map mid-week, and end by working through a project challenge scenario. The sprint rituals, metrics, and delivery concepts are covered through reading and observation in your shadowing sessions — not through additional deliverables.",
+    mondayReentry:
+      "Last week you ran the handoff and kickoff, and over the weekend you digested the Lonely Planet discovery material. You're warmed up. This week you turn that context into real deliverables.",
+    reflection:
+      "Look back across the three weeks. What clicked? What still feels uncertain and is worth a follow-up with your buddy? You're ready to jump into a real project — bring any open questions to your next 1:1.",
     done: 0,
     total: 7,
     milestones: [
@@ -199,7 +232,8 @@ export const journey: Week[] = [
         id: "w3-m1",
         code: "M1",
         title: "Status report",
-        description: "Communicate project status before a big milestone.",
+        description:
+          "Writing a status report at the start of the week trains you to communicate where the project stands before a big milestone. It's one of the most frequent and important PM communication tools.",
         state: "locked",
         subtopics: [inputs(false), deliverable(false)],
         inputs: [
@@ -212,7 +246,8 @@ export const journey: Week[] = [
         id: "w3-m2",
         code: "M2",
         title: "User Story Map & MVP",
-        description: "The capstone — build and present your story map to your buddy.",
+        description:
+          "The USM is the backbone of how ArcTouch structures and scopes projects. Presenting it to your buddy is the capstone practice moment of the onboarding. You enter this milestone already familiar with the Lonely Planet users from the discovery material.",
         state: "locked",
         subtopics: [inputs(false), deliverable(false), buddy(false)],
         inputs: [
@@ -226,16 +261,32 @@ export const journey: Week[] = [
         id: "w3-m3",
         code: "M3",
         title: "Project challenge",
-        description: "Real projects don't go to plan. Practice responding as a PM.",
+        description:
+          "Real projects never go exactly to plan. This milestone puts you in a realistic situation and asks you to respond the way a PM would: with a clear action plan and a concise message to the team.",
         state: "locked",
         subtopics: [inputs(false), deliverable(false)],
         inputs: [
           "Sprint prep and execution",
           "Daily / planning / review / retro facilitation",
           "Jira reports — burndown chart, velocity",
+          "Low-velocity and WIP management",
           "Budget/EAC, margin, invoicing basics",
         ],
-        tip: "Read the inputs to ground yourself in delivery concepts. Then pick one scenario: (A) A developer takes 3 days off mid-sprint. (B) Your burndown is flat for 4 days. (C) The project is burning budget faster than planned. Assess the situation, structure an action plan, and write a clear message to the management channel.",
+        tip: "Assess the situation, structure an action plan, and write a clear message to send on the management channel (your buddy, in this case). Be direct and solution-oriented.",
+        scenarios: [
+          {
+            id: "A",
+            text: "A developer on your team needs to take 3 days off unexpectedly. You're mid-sprint and at risk of missing the sprint goal.",
+          },
+          {
+            id: "B",
+            text: "Your burndown chart is flat for the last 4 days. The team is busy but nothing is being completed.",
+          },
+          {
+            id: "C",
+            text: "You realize the project is burning budget faster than planned and the current pace puts you at risk of going over before the final sprint.",
+          },
+        ],
       },
     ],
   },
