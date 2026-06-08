@@ -9,7 +9,7 @@ const weeks = [
 
 export function AppHeader() {
   return (
-    <header className="sticky top-0 z-10 border-b border-line bg-card">
+    <header className="sticky top-0 z-10 border-b border-line bg-white">
       <div className="mx-auto max-w-2xl px-6 py-4">
         {/* Row 1: wordmark + PM */}
         <div className="flex items-center justify-between">
