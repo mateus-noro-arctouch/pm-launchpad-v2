@@ -115,7 +115,7 @@ export const journey: Week[] = [
           { label: "Review our Organization Chart on Lattice", url: "https://www.notion.so/35adb8adf6118118afe2d744daffb3dd" },
           { label: "Meet your Peer Buddy", url: "https://www.notion.so/35adb8adf6118196941bee71d1393485" },
           { label: "Schedule 1:1s with Managers", url: "https://www.notion.so/35adb8adf611817a8277f10a4309c251" },
-          { label: "Company meeting recording [PLACEHOLDER: Sept/Oct 20XX — important org changes]" },
+          { label: "Company meeting — September 2025 (important org changes and new roles)", url: "https://app.notion.com/p/arctouch/Company-Meetings-f39a87f35f5f4695a73a01114c1334ab" },
         ],
         tip: "Schedule your 1:1s with your buddy, manager, and peers this week. The journey won't manage this for you — but do it now.",
       },
@@ -256,7 +256,7 @@ export const journey: Week[] = [
         inputs: [
           { label: "Writing Effective Project Status Reports", url: "https://www.notion.so/26c1f443c4ea49399ba1a421af02d05b" },
           { label: "Create project Slack channels — management channel usage", url: "https://www.notion.so/2aedb8adf611809fa9f3ee588fbec245" },
-          { label: "One-page status report template (Figma) [PLACEHOLDER: add link]" },
+          { label: "One-page status report template (Figma)", url: "https://www.figma.com/design/wLCAT3wjRzWvFVkJKPE7Eb/Template---One-page-report" },
         ],
         tip: "Read the inputs, then write your status report for the Lonely Planet project based on where things stand. Keep it to one page. Send it to your buddy.",
       },
