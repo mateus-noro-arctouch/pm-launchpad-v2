@@ -333,7 +333,7 @@ function WeekCard({ week, weekIndex }: { week: Week; weekIndex: number }) {
         "relative flex-shrink-0 overflow-hidden rounded-2xl border border-line bg-card transition-shadow",
         unlocking && "lp-card-unlock",
       )}
-      style={{ width: "calc(100vw - 64px)", maxWidth: "960px", scrollSnapAlign: "start" }}
+      style={{ width: "calc(100vw - 130px)", scrollSnapAlign: "start" }}
     >
       {/* Lock overlay */}
       {vm.state === "locked" && (
@@ -427,7 +427,7 @@ function LaunchCard() {
   return (
     <div
       className="relative flex-shrink-0 overflow-hidden rounded-2xl bg-foreground"
-      style={{ width: "calc(100vw - 64px)", maxWidth: "480px", scrollSnapAlign: "start", minHeight: "300px" }}
+      style={{ width: "calc(100vw - 130px)", scrollSnapAlign: "start", minHeight: "300px" }}
     >
       <div aria-hidden className="lp-stars pointer-events-none absolute inset-0 opacity-60" />
       <div
@@ -515,8 +515,8 @@ export function JourneyV2App() {
             style={{
               scrollSnapType: "x mandatory",
               WebkitOverflowScrolling: "touch",
-              paddingLeft: "32px",
-              paddingRight: "32px",
+              paddingLeft: "65px",
+              paddingRight: "65px",
               alignItems: "flex-start",
             }}
           >
