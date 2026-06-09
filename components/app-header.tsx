@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronDown, RotateCcw, Rocket } from "lucide-react"
+import Link from "next/link"
+import { useSearchParams } from "next/navigation"
+import { BookOpen, ChevronDown, RotateCcw, Rocket } from "lucide-react"
 import { useJourney } from "@/lib/journey-store"
 import { cn } from "@/lib/utils"
 
@@ -9,6 +11,10 @@ export function AppHeader() {
   const [expanded, setExpanded] = useState(false)
   const { overall, weekVM, resetProgress, pmName, startDate } = useJourney()
   const percent = overall.percent
+
+  const params = useSearchParams()
+  const qs = params.toString()
+  const welcomeHref = qs ? `/welcome?${qs}` : "/welcome"
 
   const weeks = [
     { label: "Week 1", id: "week-1" },
@@ -21,10 +27,19 @@ export function AppHeader() {
       <div className="mx-auto max-w-2xl px-6 py-2.5">
         {/* Compact row — always visible */}
         <div className="flex items-center justify-between gap-3">
-          <span className="flex items-center gap-2 text-base font-bold tracking-tight text-foreground">
-            <Rocket className="size-4 text-brand" />
-            PM Launchpad
-          </span>
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-2 text-base font-bold tracking-tight text-foreground">
+              <Rocket className="size-4 text-brand" />
+              PM Launchpad
+            </span>
+            <Link
+              href={welcomeHref}
+              className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-brand"
+            >
+              <BookOpen className="size-3.5" />
+              <span className="hidden sm:inline">Mission Briefing</span>
+            </Link>
+          </div>
 
           <button
             type="button"

@@ -157,6 +157,21 @@
   0%, 100% { opacity: 0.25; }
   50% { opacity: 1; }
 }
+@keyframes lp-launch {
+  0%   { bottom: 12%; opacity: 0; transform: translateX(-50%) scale(0.96); }
+  8%   { opacity: 1; }
+  14%  { transform: translateX(-50%) scale(1); }
+  82%  { opacity: 1; }
+  100% { bottom: 94%; opacity: 0; transform: translateX(-50%) scale(1); }
+}
+@keyframes lp-flame {
+  0%, 100% { transform: scaleY(0.7) scaleX(0.9); opacity: 0.8; }
+  50% { transform: scaleY(1.15) scaleX(1.05); opacity: 1; }
+}
+@keyframes lp-liftoff-glow {
+  0%, 12%   { opacity: 0.55; transform: translateX(-50%) scale(1); }
+  40%, 100% { opacity: 0; transform: translateX(-50%) scale(1.8); }
+}
 
 .lp-float {
   animation: lp-float 3.5s ease-in-out infinite;
@@ -166,6 +181,16 @@
 }
 .lp-glow {
   animation: lp-glow 2.2s ease-in-out infinite;
+}
+.lp-rocket-launch {
+  animation: lp-launch 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.lp-flame {
+  transform-origin: top center;
+  animation: lp-flame 0.35s ease-in-out infinite;
+}
+.lp-liftoff-glow {
+  animation: lp-liftoff-glow 7s ease-out infinite;
 }
 
 .lp-stars {
@@ -181,7 +206,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lp-float, .lp-rise, .lp-glow {
+  .lp-float, .lp-rise, .lp-glow, .lp-rocket-launch, .lp-flame, .lp-liftoff-glow {
     animation: none !important;
   }
+  .lp-rocket-launch { bottom: 60%; opacity: 1; }
 }
