@@ -449,7 +449,10 @@ function WeekCard({ week, weekIndex }: { week: Week; weekIndex: number }) {
   return (
     <div
       className={cn(
-        "relative flex-shrink-0 overflow-hidden rounded-2xl border border-line bg-card transition-shadow",
+        "relative flex-shrink-0 overflow-hidden rounded-2xl bg-card transition-all duration-300",
+        vm.state === "done"
+          ? "border-2 border-brand shadow-[0_4px_28px_rgba(255,131,0,0.18),0_2px_8px_rgba(0,0,0,0.08)]"
+          : "border border-line shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_6px_rgba(0,0,0,0.05)]",
         unlocking && "lp-card-unlock",
       )}
       style={{ width: "80vw", scrollSnapAlign: "start" }}
@@ -473,11 +476,13 @@ function WeekCard({ week, weekIndex }: { week: Week; weekIndex: number }) {
             <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{week.description}</p>
           </div>
           <div className="shrink-0 text-right">
-            <p className="text-2xl font-bold text-foreground">
+            <p className={cn("text-2xl font-bold", vm.state === "done" ? "text-brand" : "text-foreground")}>
               {vm.done}
-              <span className="text-base font-normal text-muted-foreground">/{vm.total}</span>
+              <span className={cn("text-base font-normal", vm.state === "done" ? "text-brand/70" : "text-muted-foreground")}>
+                /{vm.total}
+              </span>
             </p>
-            <p className="text-xs text-muted-foreground">completed</p>
+            <p className={cn("text-xs", vm.state === "done" ? "text-brand/70" : "text-muted-foreground")}>completed</p>
           </div>
         </div>
 
@@ -536,37 +541,6 @@ function WeekCard({ week, weekIndex }: { week: Week; weekIndex: number }) {
           <p className="text-sm leading-relaxed text-muted-foreground">{week.reflection}</p>
         </div>
       )}
-    </div>
-  )
-}
-
-/* ─── Launch card ─── */
-function LaunchCard() {
-  const { overall } = useJourney()
-  return (
-    <div
-      className="relative flex-shrink-0 overflow-hidden rounded-2xl bg-foreground"
-      style={{ width: "80vw", scrollSnapAlign: "start", minHeight: "300px" }}
-    >
-      <div aria-hidden className="lp-stars pointer-events-none absolute inset-0 opacity-60" />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{ background: "radial-gradient(circle at 50% 55%, rgba(255,131,0,0.22), transparent 62%)" }}
-      />
-      <div className="relative flex h-full flex-col items-center justify-center p-10 text-center">
-        <span aria-hidden className={cn("inline-block", overall.launched && "lp-rise")}>
-          <Rocket className="mx-auto size-14 text-brand" />
-        </span>
-        <h2 className="mt-5 text-2xl font-bold text-white">
-          {overall.launched ? "Cleared for launch" : "Launch zone"}
-        </h2>
-        <p className="mx-auto mt-3 max-w-xs text-[15px] leading-relaxed text-white/55">
-          {overall.launched
-            ? "You've completed all three stages. You're ready — reach out to your buddy or manager."
-            : "Complete all three stages to reach the launch zone."}
-        </p>
-      </div>
     </div>
   )
 }
@@ -647,7 +621,6 @@ export function JourneyV2App() {
             {journey.map((week, i) => (
               <WeekCard key={week.id} week={week} weekIndex={i} />
             ))}
-            <LaunchCard />
             <div style={{ width: "10vw", flexShrink: 0 }} aria-hidden />
           </div>
         </div>
