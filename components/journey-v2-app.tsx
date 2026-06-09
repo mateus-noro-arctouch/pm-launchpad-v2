@@ -16,25 +16,22 @@ function clamp(min: number, val: number, max: number) {
   return Math.min(max, Math.max(min, val))
 }
 
-/* ─── Space background elements ─── */
+/* ─── Space background elements (CSS-only — no JS animation loops) ─── */
 
-type StarData = {
-  id: number; x: string; y: string
-  size: number; maxOpacity: number; duration: number; delay: number
-}
+type StarData = { id: number; x: string; y: string; size: number; dur: number; delay: number; dim: boolean }
 
 function SpaceStarField() {
   const [stars, setStars] = useState<StarData[]>([])
   useEffect(() => {
     setStars(
-      Array.from({ length: 60 }, (_, i) => ({
+      Array.from({ length: 35 }, (_, i) => ({
         id: i,
         x: `${Math.random() * 100}%`,
         y: `${Math.random() * 100}%`,
-        size: Math.random() * 2 + 0.5,
-        maxOpacity: 0.3 + Math.random() * 0.6,
-        duration: 2.5 + Math.random() * 5,
-        delay: Math.random() * 8,
+        size: Math.random() * 1.8 + 0.5,
+        dur: 3 + Math.random() * 5,
+        delay: -(Math.random() * 8), // negative delay starts mid-cycle so stars aren't in sync
+        dim: Math.random() > 0.5,
       }))
     )
   }, [])
@@ -42,12 +39,15 @@ function SpaceStarField() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0">
       {stars.map((s) => (
-        <motion.div
+        <div
           key={s.id}
-          className="absolute rounded-full bg-white"
-          style={{ left: s.x, top: s.y, width: s.size, height: s.size }}
-          animate={{ opacity: [0.05, s.maxOpacity, 0.05] }}
-          transition={{ duration: s.duration, delay: s.delay, repeat: Infinity, ease: "easeInOut" }}
+          className={cn("absolute rounded-full bg-white", s.dim ? "lp-v2-twinkle-dim" : "lp-v2-twinkle")}
+          style={{
+            left: s.x, top: s.y,
+            width: s.size, height: s.size,
+            animationDuration: `${s.dur}s`,
+            animationDelay: `${s.delay}s`,
+          } as React.CSSProperties}
         />
       ))}
     </div>
@@ -60,48 +60,37 @@ function SpacePlanet({
   className?: string; size: number; delay: number; colors: string
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.6 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 2.2, delay, ease: [0.23, 0.86, 0.39, 0.96] }}
-      className={cn("absolute pointer-events-none", className)}
+    <div className={cn("absolute pointer-events-none lp-v2-float", className)}
+      style={{ '--float-dur': `${9 + delay * 1.5}s`, animationDelay: `${delay}s` } as React.CSSProperties}
     >
-      <motion.div
-        animate={{ y: [0, -10, 0], rotate: [0, 4, 0] }}
-        transition={{ duration: 9 + delay * 1.5, repeat: Infinity, ease: "easeInOut" }}
+      <div
         style={{ width: size, height: size }}
-        className={cn(
-          "rounded-full border border-white/10 bg-gradient-to-br",
-          colors,
-          "shadow-[0_4px_24px_0_rgba(255,255,255,0.06)]",
-        )}
+        className={cn("rounded-full border border-white/10 bg-gradient-to-br", colors,
+          "shadow-[0_4px_24px_0_rgba(255,255,255,0.06)]")}
       />
-    </motion.div>
+    </div>
   )
 }
 
 function SpaceComet({ delay = 0, topPct = 30 }: { delay?: number; topPct?: number }) {
+  // Total cycle = 22s; comet visible for first ~15% (~3.3s); invisible the rest
+  const cycleDur = 22 + delay * 0.8 // stagger total cycle per comet
   return (
-    <motion.div
+    <div
       aria-hidden
-      className="pointer-events-none absolute"
-      style={{ top: `${topPct}%` }}
-      initial={{ x: "110vw", opacity: 0 }}
-      animate={{ x: "-15vw", opacity: [0, 0, 0.85, 0.85, 0] }}
-      transition={{
-        x: { duration: 3.2, ease: "linear", delay, repeat: Infinity, repeatDelay: 18 + delay * 0.5 },
-        opacity: { duration: 3.2, times: [0, 0.08, 0.18, 0.85, 1], delay, repeat: Infinity, repeatDelay: 18 + delay * 0.5 },
-      }}
+      className="pointer-events-none absolute right-0 lp-v2-comet"
+      style={{ top: `${topPct}%`, '--comet-dur': `${cycleDur}s`, animationDelay: `${delay}s` } as React.CSSProperties}
     >
       <div className="flex items-center">
-        {/* Head (leads to the left) */}
         <div className="h-2 w-2 rounded-full bg-white shadow-[0_0_10px_4px_rgba(255,255,255,0.45)]" />
-        {/* Tail (trails to the right) */}
         <div className="h-px w-28 bg-gradient-to-r from-white/60 to-transparent" />
       </div>
-    </motion.div>
+    </div>
   )
 }
+
+// Add the CSS-only twinkle classes (lp-v2-twinkle / lp-v2-twinkle-dim are in globals.css)
+// This annotation is a no-op, just documenting the dependency above.
 
 /* ─── Launch Readiness Ring ─── */
 function LaunchReadinessRing({ value }: { value: number }) {
@@ -553,29 +542,44 @@ export function JourneyV2App() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeCardIndex, setActiveCardIndex] = useState(0)
   const cardsRailRef = useRef<HTMLDivElement>(null)
+  const scrollRafRef = useRef<number | null>(null)
+  const cardRafRef = useRef<number | null>(null)
 
+  // RAF-throttled vertical scroll → hero fade
   const handleScroll = useCallback(() => {
-    const threshold = Math.max(1, window.innerHeight * 0.65)
-    setScrollProgress(clamp(0, window.scrollY / threshold, 1))
+    if (scrollRafRef.current !== null) return
+    scrollRafRef.current = requestAnimationFrame(() => {
+      scrollRafRef.current = null
+      const threshold = Math.max(1, window.innerHeight * 0.65)
+      setScrollProgress(clamp(0, window.scrollY / threshold, 1))
+    })
   }, [])
 
+  // RAF-throttled horizontal card scroll → active index
   const handleCardScroll = useCallback(() => {
-    const rail = cardsRailRef.current
-    if (!rail) return
-    const center = rail.scrollLeft + rail.clientWidth / 2
-    const cards = rail.querySelectorAll<HTMLElement>("[data-card-snap]")
-    let closest = 0
-    let minDist = Infinity
-    cards.forEach((card, i) => {
-      const dist = Math.abs(card.offsetLeft + card.offsetWidth / 2 - center)
-      if (dist < minDist) { minDist = dist; closest = i }
+    if (cardRafRef.current !== null) return
+    cardRafRef.current = requestAnimationFrame(() => {
+      cardRafRef.current = null
+      const rail = cardsRailRef.current
+      if (!rail) return
+      const center = rail.scrollLeft + rail.clientWidth / 2
+      const cards = rail.querySelectorAll<HTMLElement>("[data-card-snap]")
+      let closest = 0
+      let minDist = Infinity
+      cards.forEach((card, i) => {
+        const dist = Math.abs(card.offsetLeft + card.offsetWidth / 2 - center)
+        if (dist < minDist) { minDist = dist; closest = i }
+      })
+      setActiveCardIndex(closest)
     })
-    setActiveCardIndex(closest)
   }, [])
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      if (scrollRafRef.current !== null) cancelAnimationFrame(scrollRafRef.current)
+    }
   }, [handleScroll])
 
   const heroOpacity = clamp(0, 1 - scrollProgress * 1.7, 1)

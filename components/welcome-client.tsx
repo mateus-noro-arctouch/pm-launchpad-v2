@@ -148,7 +148,7 @@ export function WelcomeClient() {
       localStorage.setItem(welcomeKey(name, start), "1")
     } catch {}
     const qs = `name=${encodeURIComponent(name)}&start=${encodeURIComponent(start)}`
-    router.push(`/journey?${qs}`)
+    router.push(`/journey-v2?${qs}`)
   }
 
   return (

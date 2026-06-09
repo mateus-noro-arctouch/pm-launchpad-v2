@@ -213,6 +213,35 @@
 .scrollbar-hide { scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
+/* ── v2 space background — CSS-only for compositor performance ── */
+@keyframes lp-v2-twinkle {
+  0%, 100% { opacity: 0.06; }
+  50%       { opacity: 0.85; }
+}
+@keyframes lp-v2-twinkle-dim {
+  0%, 100% { opacity: 0.03; }
+  50%       { opacity: 0.35; }
+}
+@keyframes lp-v2-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-10px) rotate(3deg); }
+}
+/* Comet: travels across, then hides for the majority of the cycle */
+@keyframes lp-v2-comet {
+  0%     { transform: translateX(0);                 opacity: 0; }
+  1%     { opacity: 0.9; }
+  13%    { opacity: 0.9; }
+  15%    { transform: translateX(calc(-110vw - 200px)); opacity: 0; }
+  15.1%, 100% { transform: translateX(0); opacity: 0; }
+}
+.lp-v2-twinkle     { animation: lp-v2-twinkle     var(--twinkle-dur, 4s) ease-in-out infinite; }
+.lp-v2-twinkle-dim { animation: lp-v2-twinkle-dim var(--twinkle-dur, 5s) ease-in-out infinite; }
+.lp-v2-float       { animation: lp-v2-float var(--float-dur, 9s) ease-in-out infinite; }
+.lp-v2-comet       { animation: lp-v2-comet var(--comet-dur, 22s) linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .lp-v2-twinkle, .lp-v2-twinkle-dim, .lp-v2-float, .lp-v2-comet { animation: none; opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lp-float, .lp-rise, .lp-glow, .lp-rocket-launch, .lp-flame, .lp-liftoff-glow {
     animation: none !important;
