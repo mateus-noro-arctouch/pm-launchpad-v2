@@ -203,6 +203,16 @@
   background-repeat: no-repeat;
 }
 
+/* v2 exploration */
+@keyframes lp-card-unlock {
+  0%   { box-shadow: 0 0 0 0 rgba(255,131,0,0); }
+  18%  { box-shadow: 0 0 0 8px rgba(255,131,0,0.4), 0 0 32px 6px rgba(255,131,0,0.18); }
+  100% { box-shadow: 0 0 0 0 rgba(255,131,0,0); }
+}
+.lp-card-unlock { animation: lp-card-unlock 2s ease-out forwards; }
+.scrollbar-hide { scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
 @media (prefers-reduced-motion: reduce) {
   .lp-float, .lp-rise, .lp-glow, .lp-rocket-launch, .lp-flame, .lp-liftoff-glow {
     animation: none !important;
