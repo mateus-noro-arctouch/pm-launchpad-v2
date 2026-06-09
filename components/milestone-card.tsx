@@ -84,7 +84,7 @@ function ExpandedContent({
       {milestone.inputs && milestone.inputs.length > 0 && (
         <div>
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Inputs
+            Reading material
           </p>
           <ul className="space-y-1.5">
             {milestone.inputs.map((input, i) => (
@@ -135,7 +135,7 @@ function ExpandedContent({
       {tasks.length > 0 && (
         <div>
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Checklist
+            To complete this milestone
           </p>
           <ul className="space-y-2">
             {tasks.map((task) => (

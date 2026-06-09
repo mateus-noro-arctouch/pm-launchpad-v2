@@ -48,7 +48,7 @@ export const overallProgress = 38
 
 const inputs = (checked: boolean): Subtopic => ({
   type: "inputs",
-  label: "Read the inputs",
+  label: "I've read through the material for this milestone",
   checked,
 })
 
@@ -187,7 +187,7 @@ export const journey: Week[] = [
           { label: "ArcTouch Process — Sales Handoff", url: "https://www.notion.so/9ba523d45a1747359ed71e5ec3077727" },
           { label: "Understanding the Scope of Work", url: "https://www.notion.so/a1554889d62045b4ad6b58767a8d7297" },
         ],
-        tip: "Read the inputs, then turn your Week 1 questions and the gaps you noticed on the Project Page into your handoff questions. Use those to run the session with your buddy.",
+        tip: "Read the material, then turn your Week 1 questions and the gaps you noticed on the Project Page into your handoff questions. Use those to run the session with your buddy.",
       },
       {
         id: "w2-m3",
@@ -206,7 +206,7 @@ export const journey: Week[] = [
           { label: "Internal Kick-off", url: "https://www.notion.so/5cf97610fe83499697d759c17d42d76a" },
           { label: "Client Kick-off", url: "https://www.notion.so/75f2d65cba3841de86fafc8f5e50e462" },
         ],
-        tip: "Read the inputs, then build your kickoff deck using the template. Use what you learned in the handoff session to fill in the project context. Run the client kickoff with your buddy.",
+        tip: "Read the material, then build your kickoff deck using the template. Use what you learned in the handoff session to fill in the project context. Run the client kickoff with your buddy.",
       },
       {
         id: "w2-m4",
