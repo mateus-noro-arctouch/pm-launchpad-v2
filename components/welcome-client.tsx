@@ -112,7 +112,7 @@ function LaunchSidebar() {
       {/* Liftoff glow — behind everything */}
       <span
         aria-hidden
-        className="lp-liftoff-glow absolute bottom-[21%] left-1/2 size-16 rounded-full blur-xl"
+        className="lp-liftoff-glow absolute bottom-[4%] left-1/2 size-16 rounded-full blur-xl"
         style={{ background: "rgba(255,131,0,0.45)", transform: "translateX(-50%)" }}
       />
 
