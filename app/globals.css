@@ -169,8 +169,8 @@
   50% { transform: scaleY(1.15) scaleX(1.05); opacity: 1; }
 }
 @keyframes lp-liftoff-glow {
-  0%, 12%   { opacity: 0.55; transform: translateX(-50%) scale(1); }
-  40%, 100% { opacity: 0; transform: translateX(-50%) scale(1.8); }
+  0%, 2%    { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  8%, 100%  { opacity: 0; transform: translateX(-50%) scale(2); }
 }
 
 .lp-float {
@@ -183,14 +183,14 @@
   animation: lp-glow 2.2s ease-in-out infinite;
 }
 .lp-rocket-launch {
-  animation: lp-launch 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation: lp-launch 120s linear infinite;
 }
 .lp-flame {
   transform-origin: top center;
   animation: lp-flame 0.35s ease-in-out infinite;
 }
 .lp-liftoff-glow {
-  animation: lp-liftoff-glow 7s ease-out infinite;
+  animation: lp-liftoff-glow 120s ease-out infinite;
 }
 
 .lp-stars {

@@ -14,7 +14,7 @@ export function SetupForm() {
   const canGenerate = name.trim().length > 0 && start.length > 0
 
   function generate() {
-    const url = `${window.location.origin}/journey?name=${encodeURIComponent(name.trim())}&start=${encodeURIComponent(start)}`
+    const url = `${window.location.origin}/welcome?name=${encodeURIComponent(name.trim())}&start=${encodeURIComponent(start)}`
     setLink(url)
     setCopied(false)
   }
@@ -28,7 +28,7 @@ export function SetupForm() {
   }
 
   function startJourney() {
-    const path = `/journey?name=${encodeURIComponent(name.trim())}&start=${encodeURIComponent(start)}`
+    const path = `/welcome?name=${encodeURIComponent(name.trim())}&start=${encodeURIComponent(start)}`
     router.push(path)
   }
 
