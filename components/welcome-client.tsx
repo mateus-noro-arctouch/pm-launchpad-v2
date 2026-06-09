@@ -3,74 +3,130 @@
 import { useSearchParams, useRouter } from "next/navigation"
 import { Rocket, Users, Compass, Target, ArrowRight } from "lucide-react"
 
-function RocketSVG() {
+function AstronautSVG() {
   return (
-    <svg viewBox="0 0 30 120" width="30" height="120" fill="none" aria-hidden>
-      {/* Nose cone */}
-      <path d="M15 1 C15 1 22 22 22 30 L8 30 C8 22 15 1 15 1Z" fill="#d8d8d8" />
-      {/* Body */}
-      <rect x="8" y="30" width="14" height="60" rx="1.5" fill="#c8c8c8" />
-      {/* Fairing seam line */}
-      <line x1="15" y1="30" x2="15" y2="90" stroke="#b0b0b0" strokeWidth="0.5" />
-      {/* ArcTouch orange band */}
-      <rect x="8" y="46" width="14" height="5" fill="#FF8300" opacity="0.9" />
-      {/* Small window */}
-      <circle cx="15" cy="36" r="2.5" fill="#8bbfd4" opacity="0.8" />
-      {/* Interstage (slightly wider band) */}
-      <rect x="7" y="88" width="16" height="6" rx="1" fill="#aaaaaa" />
-      {/* Engine section */}
-      <rect x="7" y="94" width="16" height="10" rx="1" fill="#999999" />
-      {/* Grid fins (top of engine section) */}
-      <rect x="3" y="85" width="4" height="7" rx="0.5" fill="#888" />
-      <rect x="23" y="85" width="4" height="7" rx="0.5" fill="#888" />
-      {/* Engine bell — widens toward bottom */}
-      <path d="M11 104 L8 116 L22 116 L19 104 Z" fill="#777777" />
-      {/* Engine nozzle rim */}
-      <ellipse cx="15" cy="116" rx="7" ry="2" fill="#666" />
-      {/* Landing legs (folded flat against body) */}
-      <path d="M8 100 L2 114 L8 106 Z" fill="#707070" />
-      <path d="M22 100 L28 114 L22 106 Z" fill="#707070" />
+    <svg viewBox="0 0 100 148" width="108" height="160" fill="none" aria-hidden>
+      {/* Helmet */}
+      <ellipse cx="50" cy="30" rx="22" ry="24" fill="#e8eaed" />
+      <ellipse cx="50" cy="30" rx="14" ry="16" fill="#1c2535" />
+      <ellipse cx="44" cy="25" rx="5" ry="4" fill="white" opacity="0.16" />
+      {/* Collar ring */}
+      <rect x="34" y="51" width="32" height="6" rx="3" fill="#d0d2d6" />
+
+      {/* Torso */}
+      <rect x="28" y="57" width="44" height="43" rx="8" fill="#e2e4e8" />
+      {/* Shoulder pads */}
+      <rect x="21" y="57" width="14" height="12" rx="4" fill="#d2d4d8" />
+      <rect x="65" y="57" width="14" height="12" rx="4" fill="#d2d4d8" />
+      {/* Chest panel */}
+      <rect x="36" y="64" width="28" height="20" rx="3" fill="#c8cacd" />
+      <rect x="38" y="67" width="11" height="7" rx="2" fill="#FF8300" opacity="0.9" />
+      <rect x="51" y="67" width="11" height="7" rx="2" fill="#3a7bd5" opacity="0.85" />
+      <rect x="38" y="76" width="24" height="3" rx="1.5" fill="#aaa" opacity="0.4" />
+      {/* Belt */}
+      <rect x="28" y="97" width="44" height="5" rx="2.5" fill="#c8cace" />
+
+      {/* Left arm — upper-left, independently animated */}
+      <g className="lp-arm-l">
+        <path d="M 32 64 C 22 61 13 56 7 51" stroke="#d8dadd" strokeWidth="13" strokeLinecap="round" />
+        <circle cx="4" cy="49" r="8" fill="#FF8300" />
+      </g>
+
+      {/* Right arm — lower-right */}
+      <g className="lp-arm-r">
+        <path d="M 68 64 C 78 62 87 59 93 57" stroke="#d8dadd" strokeWidth="13" strokeLinecap="round" />
+        <circle cx="96" cy="56" r="8" fill="#d0d2d6" />
+      </g>
+
+      {/* Left leg */}
+      <g className="lp-leg-l">
+        <path d="M 40 100 C 36 113 33 123 31 133" stroke="#d8dadd" strokeWidth="12" strokeLinecap="round" />
+        <ellipse cx="30" cy="137" rx="9" ry="5" fill="#c0c2c6" />
+      </g>
+
+      {/* Right leg */}
+      <g className="lp-leg-r">
+        <path d="M 60 100 C 64 113 67 123 69 133" stroke="#d8dadd" strokeWidth="12" strokeLinecap="round" />
+        <ellipse cx="70" cy="137" rx="9" ry="5" fill="#c0c2c6" />
+      </g>
+
+      {/* Tether from belt extending right, clipped by container */}
+      <path
+        d="M 72 100 C 88 96 105 91 130 87 C 160 83 190 80 230 77"
+        stroke="rgba(255,255,255,0.45)"
+        strokeWidth="1.5"
+        fill="none"
+        strokeLinecap="round"
+      />
     </svg>
   )
 }
 
-function LaunchpadSVG() {
+function AstronautScene() {
   return (
-    <svg viewBox="0 0 120 90" width="100%" fill="none" aria-hidden>
-      {/* Hold-down clamp arms */}
-      <rect x="47" y="4" width="5" height="22" rx="1" fill="#5a5a5a" />
-      <rect x="68" y="4" width="5" height="22" rx="1" fill="#5a5a5a" />
-      <rect x="45" y="4" width="9" height="3" rx="1" fill="#6a6a6a" />
-      <rect x="66" y="4" width="9" height="3" rx="1" fill="#6a6a6a" />
+    <div className="relative h-full w-full overflow-hidden bg-foreground">
+      {/* Stars */}
+      <div aria-hidden className="lp-stars pointer-events-none absolute inset-0 opacity-80" />
+      {/* Extra scattered stars */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: [
+            "radial-gradient(1px 1px at 10% 55%, rgba(255,255,255,0.55), transparent)",
+            "radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.5), transparent)",
+            "radial-gradient(1.5px 1.5px at 35% 80%, rgba(255,255,255,0.4), transparent)",
+            "radial-gradient(1px 1px at 88% 78%, rgba(255,255,255,0.45), transparent)",
+            "radial-gradient(1px 1px at 20% 16%, rgba(255,255,255,0.6), transparent)",
+            "radial-gradient(1px 1px at 60% 92%, rgba(255,255,255,0.3), transparent)",
+            "radial-gradient(1px 1px at 6% 40%, rgba(255,255,255,0.4), transparent)",
+            "radial-gradient(1px 1px at 52% 12%, rgba(255,255,255,0.5), transparent)",
+            "radial-gradient(1px 1px at 94% 52%, rgba(255,255,255,0.35), transparent)",
+            "radial-gradient(1px 1px at 44% 64%, rgba(255,255,255,0.3), transparent)",
+          ].join(", "),
+          backgroundRepeat: "no-repeat",
+        }}
+      />
 
-      {/* Launch table platform */}
-      <rect x="28" y="26" width="64" height="9" rx="2" fill="#4a4a4a" />
-      {/* Flame duct opening in center of platform */}
-      <rect x="50" y="27" width="20" height="7" rx="1" fill="#222" />
+      {/* Planet — upper right */}
+      <div
+        aria-hidden
+        className="absolute right-3 top-[10%] size-16 rounded-full"
+        style={{
+          background: "radial-gradient(circle at 32% 32%, #2d4a7a 0%, #0c1828 100%)",
+          opacity: 0.6,
+          boxShadow: "0 0 18px rgba(45,74,122,0.35)",
+        }}
+      />
+      {/* Planet ring */}
+      <div
+        aria-hidden
+        className="absolute right-[-2px] top-[calc(10%+22px)] h-5 w-24 rounded-full"
+        style={{
+          border: "1.5px solid rgba(90,130,200,0.28)",
+          transform: "scaleY(0.28) rotate(-4deg)",
+        }}
+      />
 
-      {/* Main support legs — angled outward like a truss */}
-      <line x1="34" y1="35" x2="14" y2="72" stroke="#5a5a5a" strokeWidth="5" strokeLinecap="round" />
-      <line x1="86" y1="35" x2="106" y2="72" stroke="#5a5a5a" strokeWidth="5" strokeLinecap="round" />
-      {/* Inner legs */}
-      <line x1="44" y1="35" x2="34" y2="72" stroke="#505050" strokeWidth="3.5" strokeLinecap="round" />
-      <line x1="76" y1="35" x2="86" y2="72" stroke="#505050" strokeWidth="3.5" strokeLinecap="round" />
+      {/* Small moon — lower left */}
+      <div
+        aria-hidden
+        className="absolute left-3 bottom-[22%] size-6 rounded-full"
+        style={{
+          background: "radial-gradient(circle at 38% 38%, #888, #3a3a3a)",
+          opacity: 0.38,
+        }}
+      />
 
-      {/* Cross bracing between legs */}
-      <line x1="14" y1="56" x2="34" y2="56" stroke="#404040" strokeWidth="2" />
-      <line x1="86" y1="56" x2="106" y2="56" stroke="#404040" strokeWidth="2" />
-      <line x1="16" y1="42" x2="36" y2="60" stroke="#383838" strokeWidth="1.5" />
-      <line x1="104" y1="42" x2="84" y2="60" stroke="#383838" strokeWidth="1.5" />
-
-      {/* Flame deflector wedge below platform */}
-      <path d="M50 33 L42 68 L78 68 L70 33 Z" fill="#1e1e1e" opacity="0.7" />
-
-      {/* Ground base plate */}
-      <rect x="8" y="72" width="104" height="7" rx="2" fill="#3a3a3a" />
-      <rect x="0" y="79" width="120" height="5" rx="1" fill="#2e2e2e" />
-
-      {/* Pipes / umbilical hints on right leg */}
-      <line x1="84" y1="28" x2="100" y2="58" stroke="#FF8300" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.4" />
-    </svg>
+      {/* Floating astronaut — centered, gently drifts and rotates */}
+      <div
+        aria-hidden
+        className="lp-astronaut-float absolute left-1/2 top-[46%]"
+        style={{ transform: "translate(-50%, -50%) rotate(-8deg)" }}
+      >
+        <AstronautSVG />
+      </div>
+    </div>
   )
 }
 
@@ -156,7 +212,7 @@ export function WelcomeClient() {
       {/* Left sidebar — dark strip with rocket animation, always visible */}
       <aside className="flex w-48 shrink-0 flex-col sm:w-56">
         <div className="sticky top-0 h-screen">
-          <LaunchSidebar />
+          <AstronautScene />
         </div>
       </aside>
 
