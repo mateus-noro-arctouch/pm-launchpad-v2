@@ -2,13 +2,12 @@
 
 import { useState } from "react"
 import { ChevronDown, RotateCcw, Rocket } from "lucide-react"
-import { pmName, startDate } from "@/lib/journey-data"
 import { useJourney } from "@/lib/journey-store"
 import { cn } from "@/lib/utils"
 
 export function AppHeader() {
   const [expanded, setExpanded] = useState(false)
-  const { overall, weekVM, resetProgress } = useJourney()
+  const { overall, weekVM, resetProgress, pmName, startDate } = useJourney()
   const percent = overall.percent
 
   const weeks = [

@@ -3,7 +3,7 @@
 import { Rocket } from "lucide-react"
 import { AppHeader } from "@/components/app-header"
 import { WeekSection } from "@/components/week-section"
-import { journey, pmName, startDate } from "@/lib/journey-data"
+import { journey } from "@/lib/journey-data"
 import { useJourney } from "@/lib/journey-store"
 
 function LaunchReadinessRing({ value }: { value: number }) {
@@ -38,7 +38,7 @@ function LaunchReadinessRing({ value }: { value: number }) {
 }
 
 export function JourneyApp() {
-  const { overall } = useJourney()
+  const { overall, pmName, startDate } = useJourney()
   const launched = overall.launched
 
   return (

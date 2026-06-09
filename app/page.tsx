@@ -1,10 +1,5 @@
-import { JourneyApp } from "@/components/journey-app"
-import { JourneyProvider } from "@/lib/journey-store"
+import { SetupForm } from "@/components/setup-form"
 
-export default function JourneyHomePage() {
-  return (
-    <JourneyProvider>
-      <JourneyApp />
-    </JourneyProvider>
-  )
+export default function SetupPage() {
+  return <SetupForm />
 }
