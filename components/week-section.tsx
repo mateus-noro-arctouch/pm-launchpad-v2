@@ -105,19 +105,19 @@ export function WeekSection({ week, index }: { week: Week; index: number }) {
           <p className="mt-2 max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground">
             {week.description}
           </p>
-
-          {/* Monday re-entry — recap from previous week (Week 2 & 3) */}
-          {week.mondayReentry && (
-            <div className="mt-3 flex items-start gap-2.5 rounded-lg border border-line bg-muted px-4 py-3">
-              <History className="mt-0.5 size-4 shrink-0 text-brand" />
-              <p className="text-[13px] leading-relaxed text-muted-foreground">
-                <span className="font-semibold text-foreground">Monday re-entry — </span>
-                {week.mondayReentry}
-              </p>
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Monday re-entry — full width, between header and milestones */}
+      {week.mondayReentry && (
+        <div className="mt-4 flex items-start gap-2.5 rounded-lg border border-line bg-muted px-4 py-3">
+          <History className="mt-0.5 size-4 shrink-0 text-brand" />
+          <p className="text-[13px] leading-relaxed text-muted-foreground">
+            <span className="font-semibold text-foreground">Monday re-entry — </span>
+            {week.mondayReentry}
+          </p>
+        </div>
+      )}
 
       {/* Trajectory rail + milestones */}
       <ul className="relative mt-5">

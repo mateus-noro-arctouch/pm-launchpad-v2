@@ -89,7 +89,6 @@ export const journey: Week[] = [
           { label: "Mavenlink — Introduction", url: "https://www.notion.so/cb94427b705b46158ed43ad5af04ff75" },
           { label: "Mavenlink — Creating/Updating a New Project", url: "https://www.notion.so/dbfc780610f14006a9ff1b9be93b2ca4" },
           { label: "Mavenlink — Project and Timesheets Maintenance", url: "https://www.notion.so/88140b345e9c475a9bfcbf57c1a25980" },
-          { label: "Jira Guide for ArcTouch PMs", url: "https://www.notion.so/2a0db8adf61180dfbc34e8a849a877d6" },
         ],
         tip: "By the end of this week your hours are automatically logged as idle on Mavenlink — understand what that means and how it works.",
       },
@@ -168,8 +167,6 @@ export const journey: Week[] = [
         inputs: [
           { label: "Initial project activities", url: "https://www.notion.so/35adb8adf611817fba1fccbcb6b0c944" },
           { label: "Project communication & organization", url: "https://www.notion.so/35adb8adf61181dba528e7b3c49493f9" },
-          { label: "Create project Slack channels", url: "https://www.notion.so/2aedb8adf611809fa9f3ee588fbec245" },
-          { label: "Lonely Planet — Jira board", url: "https://arctouch.atlassian.net/jira/software/c/projects/LP/boards/1995" },
         ],
         tip: "Read the template, explore a few existing project pages in the portfolio to understand how they're structured, then create your own. Every deliverable from here on gets filed here.",
       },
@@ -208,7 +205,6 @@ export const journey: Week[] = [
           { label: "Kicking Off Projects — overview card", url: "https://www.notion.so/35adb8adf611814cb4f5e4bf4e3af429" },
           { label: "Internal Kick-off", url: "https://www.notion.so/5cf97610fe83499697d759c17d42d76a" },
           { label: "Client Kick-off", url: "https://www.notion.so/75f2d65cba3841de86fafc8f5e50e462" },
-          { label: "ArcTouch Process — Implementation (sprint prep & execution)", url: "https://www.notion.so/dd8b0549c9bd4fa6a5a0386c1d202631" },
         ],
         tip: "Read the inputs, then build your kickoff deck using the template. Use what you learned in the handoff session to fill in the project context. Run the client kickoff with your buddy.",
       },
@@ -224,7 +220,6 @@ export const journey: Week[] = [
           { label: "Strategy (Discovery) — ArcTouch Process", url: "https://www.notion.so/5d7128edbc644933b36dfcb9cf2ef756" },
           { label: "Product Discovery Guide for PMs", url: "https://www.notion.so/2b7db8adf61180679a43e26e252bc5da" },
           { label: "Lonely Planet — Figma team (personas, research, pain points)", url: "https://www.figma.com/files/1324018082588945788/team/1508821500807554926?fuid=1010227290774979230" },
-          { label: "Lonely Planet — App Store listing", url: "https://apps.apple.com/us/app/lonely-planet-plan-travel/id6743324581" },
         ],
         tip: "Read and digest this material over the end of the week. You don't need to produce anything yet — just understand it. Week 3 starts with this context in hand.",
         complementary: [
@@ -303,6 +298,7 @@ export const journey: Week[] = [
           { type: "deliverable", label: "File your action plan + management channel message on the Project Page", checked: false },
         ],
         inputs: [
+          { label: "ArcTouch Process — Implementation (sprint prep & execution)", url: "https://www.notion.so/dd8b0549c9bd4fa6a5a0386c1d202631" },
           { label: "Facilitating Effective Daily Meetings", url: "https://www.notion.so/1857fe74bfeb484faf3dd7d4305e8e74" },
           { label: "Facilitating Effective Sprint Plannings", url: "https://www.notion.so/b8f3daade0734fba8b56264e178e3a58" },
           { label: "Facilitating Effective Sprint Reviews / Demo meetings", url: "https://www.notion.so/b8409d19e5524553935aff80079428ec" },
