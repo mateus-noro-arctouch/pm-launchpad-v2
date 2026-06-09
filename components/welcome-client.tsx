@@ -86,15 +86,15 @@ export function WelcomeClient() {
 
   return (
     <main className="flex min-h-screen">
-      {/* Left sidebar — thin dark strip with rocket animation */}
-      <aside className="hidden lg:flex w-20 shrink-0 flex-col">
+      {/* Left sidebar — thin dark strip with rocket animation, always visible */}
+      <aside className="flex w-16 shrink-0 flex-col sm:w-20">
         <div className="sticky top-0 h-screen">
           <LaunchSidebar />
         </div>
       </aside>
 
       {/* Right — content */}
-      <div className="flex-1 px-8 py-12 sm:px-14 lg:px-16 xl:px-20">
+      <div className="flex-1 px-6 py-12 sm:px-10 lg:px-16 xl:px-20">
         <div className="mx-auto max-w-2xl">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-brand">
             <Rocket className="size-3.5" />
