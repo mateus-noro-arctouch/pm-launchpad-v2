@@ -1,18 +1,106 @@
 "use client"
 
-import { useState, useRef, useEffect, useCallback } from "react"
+import { useState, useRef, useEffect, useCallback, useMemo } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import {
   BookOpen, CalendarCheck, Check, CheckCircle2, ChevronDown,
   History, Lightbulb, Lock, Rocket, RotateCcw,
 } from "lucide-react"
+import { motion } from "framer-motion"
 import { journey, type Milestone, type Week } from "@/lib/journey-data"
 import { useJourney, type DerivedState } from "@/lib/journey-store"
 import { cn } from "@/lib/utils"
 
 function clamp(min: number, val: number, max: number) {
   return Math.min(max, Math.max(min, val))
+}
+
+/* ─── Space background elements ─── */
+
+type StarData = {
+  id: number; x: string; y: string
+  size: number; maxOpacity: number; duration: number; delay: number
+}
+
+function SpaceStarField() {
+  const [stars, setStars] = useState<StarData[]>([])
+  useEffect(() => {
+    setStars(
+      Array.from({ length: 60 }, (_, i) => ({
+        id: i,
+        x: `${Math.random() * 100}%`,
+        y: `${Math.random() * 100}%`,
+        size: Math.random() * 2 + 0.5,
+        maxOpacity: 0.3 + Math.random() * 0.6,
+        duration: 2.5 + Math.random() * 5,
+        delay: Math.random() * 8,
+      }))
+    )
+  }, [])
+
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      {stars.map((s) => (
+        <motion.div
+          key={s.id}
+          className="absolute rounded-full bg-white"
+          style={{ left: s.x, top: s.y, width: s.size, height: s.size }}
+          animate={{ opacity: [0.05, s.maxOpacity, 0.05] }}
+          transition={{ duration: s.duration, delay: s.delay, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
+    </div>
+  )
+}
+
+function SpacePlanet({
+  className, size, delay, colors,
+}: {
+  className?: string; size: number; delay: number; colors: string
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.6 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 2.2, delay, ease: [0.23, 0.86, 0.39, 0.96] }}
+      className={cn("absolute pointer-events-none", className)}
+    >
+      <motion.div
+        animate={{ y: [0, -10, 0], rotate: [0, 4, 0] }}
+        transition={{ duration: 9 + delay * 1.5, repeat: Infinity, ease: "easeInOut" }}
+        style={{ width: size, height: size }}
+        className={cn(
+          "rounded-full border border-white/10 bg-gradient-to-br",
+          colors,
+          "shadow-[0_4px_24px_0_rgba(255,255,255,0.06)]",
+        )}
+      />
+    </motion.div>
+  )
+}
+
+function SpaceComet({ delay = 0, topPct = 30 }: { delay?: number; topPct?: number }) {
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute"
+      style={{ top: `${topPct}%` }}
+      initial={{ x: "110vw", opacity: 0 }}
+      animate={{ x: "-15vw", opacity: [0, 0, 0.85, 0.85, 0] }}
+      transition={{
+        x: { duration: 3.2, ease: "linear", delay, repeat: Infinity, repeatDelay: 18 + delay * 0.5 },
+        opacity: { duration: 3.2, times: [0, 0.08, 0.18, 0.85, 1], delay, repeat: Infinity, repeatDelay: 18 + delay * 0.5 },
+      }}
+    >
+      <div className="flex items-center">
+        {/* Head (leads to the left) */}
+        <div className="h-2 w-2 rounded-full bg-white shadow-[0_0_10px_4px_rgba(255,255,255,0.45)]" />
+        {/* Tail (trails to the right) */}
+        <div className="h-px w-28 bg-gradient-to-r from-white/60 to-transparent" />
+      </div>
+    </motion.div>
+  )
 }
 
 /* ─── Launch Readiness Ring ─── */
@@ -47,48 +135,79 @@ function HeroContent() {
     done: overall.launched,
   }))
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 28 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, delay: 0.35 + i * 0.18, ease: [0.25, 0.4, 0.25, 1] },
+    }),
+  }
+
   return (
     <>
-      <div aria-hidden className="lp-stars pointer-events-none absolute inset-0 opacity-70" />
+      {/* Animated space background */}
+      <SpaceStarField />
+
+      {/* Brand radial glow */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
-        style={{ background: "radial-gradient(ellipse at 50% 58%, rgba(255,131,0,0.12), transparent 60%)" }}
+        style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(255,131,0,0.13), transparent 58%)" }}
       />
+
+      {/* Floating planets */}
+      <SpacePlanet className="left-[6%] top-[18%]" size={32} delay={0.5} colors="from-orange-300/25 to-amber-800/10" />
+      <SpacePlanet className="right-[10%] top-[28%]" size={20} delay={0.8} colors="from-violet-400/20 to-purple-900/10" />
+      <SpacePlanet className="left-[22%] bottom-[20%]" size={14} delay={1.1} colors="from-cyan-300/20 to-blue-900/10" />
+      <SpacePlanet className="right-[28%] bottom-[30%]" size={10} delay={1.4} colors="from-rose-300/15 to-pink-900/10" />
+
+      {/* Comets — right to left, staggered */}
+      <SpaceComet delay={1.5} topPct={28} />
+      <SpaceComet delay={16} topPct={58} />
+
+      {/* Foreground content */}
       <div className="relative max-w-lg">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-brand">
-          <Rocket className="size-3.5" />
-          On the launchpad
-        </span>
-        <h1 className="mt-5 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Welcome aboard,<br />{pmName}.
-        </h1>
-        <p className="mt-2 text-sm text-white/50">Started {startDate}</p>
+        <motion.div custom={0} variants={fadeUp} initial="hidden" animate="visible">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-brand">
+            <Rocket className="size-3.5" />
+            On the launchpad
+          </span>
+        </motion.div>
 
-        <div className="mt-8 flex justify-center">
+        <motion.div custom={1} variants={fadeUp} initial="hidden" animate="visible">
+          <h1 className="mt-5 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            Welcome aboard,<br />{pmName}.
+          </h1>
+          <p className="mt-2 text-sm text-white/50">Started {startDate}</p>
+        </motion.div>
+
+        <motion.div custom={2} variants={fadeUp} initial="hidden" animate="visible" className="mt-8 flex justify-center">
           <LaunchReadinessRing value={overall.percent} />
-        </div>
+        </motion.div>
 
-        <div className="mt-8 flex items-center justify-center gap-8">
-          {weeks.map((w) => (
-            <div key={w.label} className="flex flex-col items-center gap-1.5">
-              <span
-                className={cn(
-                  "size-2.5 rounded-full",
-                  w.done ? "bg-brand" : w.active ? "bg-brand/60 ring-2 ring-brand/30" : "bg-white/15",
-                )}
-              />
-              <span className={cn("text-[10px] font-medium", !w.active && !w.done ? "text-white/30" : "text-white/70")}>
-                {w.label}
-              </span>
-            </div>
-          ))}
-        </div>
+        <motion.div custom={3} variants={fadeUp} initial="hidden" animate="visible">
+          <div className="mt-8 flex items-center justify-center gap-8">
+            {weeks.map((w) => (
+              <div key={w.label} className="flex flex-col items-center gap-1.5">
+                <span
+                  className={cn(
+                    "size-2.5 rounded-full",
+                    w.done ? "bg-brand" : w.active ? "bg-brand/60 ring-2 ring-brand/30" : "bg-white/15",
+                  )}
+                />
+                <span className={cn("text-[10px] font-medium", !w.active && !w.done ? "text-white/30" : "text-white/70")}>
+                  {w.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
 
-        <div className="mt-10 text-white/30">
+        <motion.div custom={4} variants={fadeUp} initial="hidden" animate="visible" className="mt-10 text-white/30">
           <ChevronDown className="mx-auto size-5 animate-bounce" />
           <p className="mt-1 text-[11px] uppercase tracking-widest">Scroll to begin</p>
-        </div>
+        </motion.div>
       </div>
     </>
   )
