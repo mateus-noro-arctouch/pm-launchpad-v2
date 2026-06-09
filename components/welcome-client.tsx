@@ -109,7 +109,14 @@ function LaunchSidebar() {
         style={{ background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.06) 80%, transparent)" }}
       />
 
-      {/* Rocket — thin SVG, rises over 2 min */}
+      {/* Liftoff glow — behind everything */}
+      <span
+        aria-hidden
+        className="lp-liftoff-glow absolute bottom-[21%] left-1/2 size-16 rounded-full blur-xl"
+        style={{ background: "rgba(255,131,0,0.45)", transform: "translateX(-50%)" }}
+      />
+
+      {/* Rocket — renders before launchpad so it sits behind it */}
       <div
         aria-hidden
         className="lp-rocket-launch absolute left-1/2 flex flex-col items-center"
@@ -122,14 +129,7 @@ function LaunchSidebar() {
         />
       </div>
 
-      {/* Liftoff glow */}
-      <span
-        aria-hidden
-        className="lp-liftoff-glow absolute bottom-[21%] left-1/2 size-16 rounded-full blur-xl"
-        style={{ background: "rgba(255,131,0,0.45)", transform: "translateX(-50%)" }}
-      />
-
-      {/* SpaceX-style launch mount */}
+      {/* SpaceX-style launch mount — renders last, sits in front of rocket */}
       <div aria-hidden className="absolute inset-x-0 bottom-0 px-1 pb-1">
         <LaunchpadSVG />
       </div>
