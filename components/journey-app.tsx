@@ -7,12 +7,12 @@ import { journey, pmName, startDate } from "@/lib/journey-data"
 import { useJourney } from "@/lib/journey-store"
 
 function LaunchReadinessRing({ value }: { value: number }) {
-  const radius = 42
+  const radius = 40
   const circumference = 2 * Math.PI * radius
   const offset = circumference * (1 - value / 100)
   return (
-    <div className="relative size-24 shrink-0">
-      <svg viewBox="0 0 100 100" className="size-24 -rotate-90">
+    <div className="relative size-28 shrink-0">
+      <svg viewBox="0 0 100 100" className="size-28 -rotate-90">
         <circle cx="50" cy="50" r={radius} fill="none" stroke="#e6e6e6" strokeWidth="8" />
         <circle
           cx="50"
