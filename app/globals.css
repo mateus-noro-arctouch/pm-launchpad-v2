@@ -203,29 +203,8 @@
   background-repeat: no-repeat;
 }
 
-@keyframes lp-astronaut-float {
-  0%, 100% { transform: translate(-50%, -50%) rotate(-8deg) translateY(0px); }
-  30%       { transform: translate(-50%, -50%) rotate(-4deg) translateY(-14px); }
-  65%       { transform: translate(-50%, -50%) rotate(-11deg) translateY(-7px); }
-}
-@keyframes lp-arm-dangle {
-  0%, 100% { transform: rotate(0deg); }
-  50%       { transform: rotate(6deg); }
-}
-@keyframes lp-leg-drift {
-  0%, 100% { transform: rotate(0deg); }
-  50%       { transform: rotate(-5deg); }
-}
-
-.lp-astronaut-float { animation: lp-astronaut-float 6s ease-in-out infinite; }
-.lp-arm-l            { transform-origin: 28px 64px; animation: lp-arm-dangle 6s ease-in-out infinite; }
-.lp-arm-r            { transform-origin: 72px 64px; animation: lp-arm-dangle 6s ease-in-out infinite reverse; }
-.lp-leg-l            { transform-origin: 40px 100px; animation: lp-leg-drift 6s ease-in-out infinite; }
-.lp-leg-r            { transform-origin: 60px 100px; animation: lp-leg-drift 6s ease-in-out infinite reverse; }
-
 @media (prefers-reduced-motion: reduce) {
-  .lp-float, .lp-rise, .lp-glow, .lp-rocket-launch, .lp-flame, .lp-liftoff-glow,
-  .lp-astronaut-float, .lp-arm-l, .lp-arm-r, .lp-leg-l, .lp-leg-r {
+  .lp-float, .lp-rise, .lp-glow, .lp-rocket-launch, .lp-flame, .lp-liftoff-glow {
     animation: none !important;
   }
   .lp-rocket-launch { bottom: 60%; opacity: 1; }
