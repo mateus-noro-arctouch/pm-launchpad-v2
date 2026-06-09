@@ -174,7 +174,7 @@ export function WelcomeClient() {
           <p className="mt-3 text-pretty text-base leading-relaxed text-muted-foreground">
             Over the next three weeks you'll gain{" "}
             <span className="font-semibold text-foreground">
-              hands-on experience with a real project
+              hands-on experience by building a study case for a real ArcTouch project
             </span>
             , with a buddy beside you the whole way. Starting from Week 2, you'll dive into the
             work of a PM — step by step, in a safe environment. This is your pre-flight briefing.
