@@ -158,7 +158,7 @@
   50% { opacity: 1; }
 }
 @keyframes lp-launch {
-  0%   { bottom: -4%; opacity: 1; transform: translateX(-50%); }
+  0%   { bottom: 1%; opacity: 1; transform: translateX(-50%); }
   88%  { opacity: 1; }
   100% { bottom: 96%; opacity: 0; transform: translateX(-50%); }
 }
