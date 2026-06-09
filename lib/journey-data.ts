@@ -48,7 +48,7 @@ export const overallProgress = 38
 
 const inputs = (checked: boolean): Subtopic => ({
   type: "inputs",
-  label: "I've read through the material for this milestone",
+  label: "Read through the material for this milestone",
   checked,
 })
 

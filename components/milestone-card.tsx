@@ -135,7 +135,7 @@ function ExpandedContent({
       {tasks.length > 0 && (
         <div>
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            To complete this milestone
+            Checklist
           </p>
           <ul className="space-y-2">
             {tasks.map((task) => (

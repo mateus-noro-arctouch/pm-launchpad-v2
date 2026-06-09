@@ -1,7 +1,7 @@
 "use client"
 
 import { useSearchParams, useRouter } from "next/navigation"
-import { Rocket, Users, Compass, Target, ArrowRight } from "lucide-react"
+import { BookOpen, CheckSquare, CalendarCheck, Rocket, Users, Compass, Target, ArrowRight } from "lucide-react"
 
 function RocketSVG() {
   return (
@@ -250,6 +250,52 @@ export function WelcomeClient() {
                       <p className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">
                         {w.copy}
                       </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-bold tracking-tight text-foreground">
+                How the journey works
+              </h2>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+                Each week is made up of milestones. Every milestone has reading material to go
+                through and a checklist of tasks to complete before you move on. As you check
+                things off, the next milestone unlocks — and at the end of each week, a{" "}
+                <span className="font-semibold text-foreground">Friday content drop</span> becomes
+                available once you've finished the week's work. Friday is a suggestion, not a
+                hard deadline — if you get through everything earlier, open it right away.
+              </p>
+              <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                The complexity ramps up intentionally. Week 1 is mostly reading and orienting.
+                By Week 3 you're producing real deliverables and working through challenging
+                scenarios. There are three kinds of activities you'll encounter:
+              </p>
+              <div className="mt-4 space-y-3">
+                {[
+                  {
+                    icon: BookOpen,
+                    title: "Reading",
+                    copy: "Go through the linked material, understand the process or concept, and mark it done. Some milestones are purely reading.",
+                  },
+                  {
+                    icon: CheckSquare,
+                    title: "Deliverables",
+                    copy: "Produce something concrete — a project page, a kickoff deck, a story map. These get shared with your buddy for feedback.",
+                  },
+                  {
+                    icon: CalendarCheck,
+                    title: "Buddy sessions",
+                    copy: "Schedule a mock meeting or presentation with your buddy. You run it, they play the room, and you get real feedback on your performance.",
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="flex gap-3 rounded-xl border border-line bg-card px-4 py-3.5">
+                    <item.icon className="mt-0.5 size-4 shrink-0 text-brand" />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                      <p className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">{item.copy}</p>
                     </div>
                   </div>
                 ))}
