@@ -172,12 +172,13 @@ export function WelcomeClient() {
             Welcome aboard, {name}.
           </h1>
           <p className="mt-3 text-pretty text-base leading-relaxed text-muted-foreground">
-            Over the next three weeks you won't just read about being a PM at ArcTouch — you'll{" "}
+            Over the next three weeks you'll gain{" "}
             <span className="font-semibold text-foreground">
-              live a real project from day one
+              hands-on experience with a real project
             </span>
-            , with a buddy beside you the whole way. This is your pre-flight briefing. Read it
-            once, then start your ascent.
+            , with a buddy beside you the whole way. Starting from Week 2, you'll dive into the
+            work of a PM — step by step, in a safe environment. This is your pre-flight briefing.
+            You can come back to it anytime via the Mission Briefing link in the header.
           </p>
 
           <div className="mt-10 space-y-9">
@@ -186,12 +187,12 @@ export function WelcomeClient() {
                 What is the PM Launchpad?
               </h2>
               <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-                The Launchpad is your single source of truth for becoming a Product Manager at
-                ArcTouch. Instead of scattered docs and "figure it out as you go," it gives you
-                one guided path: a clear set of milestones, the exact materials to read, and
-                concrete things to produce — week by week. By the end, you'll have done the real
-                work of a PM at least once, in a safe environment, before it ever counts on a
-                live account.
+                The Launchpad is a structured companion for your onboarding — a guided path that
+                connects the materials you need to read with the milestones you need to hit, week
+                by week. It doesn't replace the existing resources and documentation your managers
+                have built; it helps you connect the dots between all of them and your journey as
+                a new PM. By the end, you'll have done the real work of a PM at least once, in a
+                safe environment, before jumping into your first project.
               </p>
             </section>
 
@@ -261,12 +262,13 @@ export function WelcomeClient() {
                 Why we built this
               </h2>
               <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-                Starting a new PM role is exciting — and a little daunting. The Launchpad exists
-                so that on the day you join your first real project, you've already been through
-                the motions: you've run the handoff, faced the client moment, made the call under
-                ambiguity. That's the whole point of the name. By the time you reach the end, you
-                shouldn't just <em>know</em> how a PM works at ArcTouch — you should feel ready
-                to be launched.
+                Not every ArcTouch project starts from scratch — sometimes you'll jump in halfway
+                through, play a supporting role, or inherit someone else's setup. That's normal.
+                The Launchpad isn't trying to cover every possible scenario. It gives you a
+                practical case to get familiar with the processes, practice the key moments with
+                your buddy, and build real hands-on experience before stepping into any reality.
+                You'll keep learning a lot after this — but when your manager assigns you to your
+                first project, you'll feel confident walking in.
               </p>
             </section>
           </div>
