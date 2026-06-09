@@ -333,7 +333,7 @@ function WeekCard({ week, weekIndex }: { week: Week; weekIndex: number }) {
         "relative flex-shrink-0 overflow-hidden rounded-2xl border border-line bg-card transition-shadow",
         unlocking && "lp-card-unlock",
       )}
-      style={{ width: "calc(100vw - 130px)", scrollSnapAlign: "start" }}
+      style={{ width: "80vw", scrollSnapAlign: "start" }}
     >
       {/* Lock overlay */}
       {vm.state === "locked" && (
@@ -427,7 +427,7 @@ function LaunchCard() {
   return (
     <div
       className="relative flex-shrink-0 overflow-hidden rounded-2xl bg-foreground"
-      style={{ width: "calc(100vw - 130px)", scrollSnapAlign: "start", minHeight: "300px" }}
+      style={{ width: "80vw", scrollSnapAlign: "start", minHeight: "300px" }}
     >
       <div aria-hidden className="lp-stars pointer-events-none absolute inset-0 opacity-60" />
       <div
@@ -510,20 +510,26 @@ export function JourneyV2App() {
           </div>
 
           {/* Horizontal cards rail */}
+          {/*
+            Padding on overflow-x flex containers is unreliable in some browsers.
+            Spacer divs + scrollPaddingLeft is the correct cross-browser approach.
+            Leading spacer = 10vw - 1rem (gap fills the remaining 1rem before card 1).
+          */}
           <div
             className="scrollbar-hide flex gap-4 overflow-x-auto pb-24 pt-4"
             style={{
               scrollSnapType: "x mandatory",
               WebkitOverflowScrolling: "touch",
-              paddingLeft: "65px",
-              paddingRight: "65px",
+              scrollPaddingLeft: "10vw",
               alignItems: "flex-start",
             }}
           >
+            <div style={{ width: "calc(10vw - 1rem)", flexShrink: 0 }} aria-hidden />
             {journey.map((week, i) => (
               <WeekCard key={week.id} week={week} weekIndex={i} />
             ))}
             <LaunchCard />
+            <div style={{ width: "10vw", flexShrink: 0 }} aria-hidden />
           </div>
         </div>
       </div>
