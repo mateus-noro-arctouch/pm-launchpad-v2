@@ -1,11 +1,12 @@
+"use client"
+
 import { Check, Lock, Rocket } from "lucide-react"
 import { MilestoneCard } from "@/components/milestone-card"
 import { cn } from "@/lib/utils"
-import type { Milestone, Week } from "@/lib/journey-data"
+import { useJourney, type DerivedState } from "@/lib/journey-store"
+import type { Week } from "@/lib/journey-data"
 
-function RailNode({ milestone }: { milestone: Milestone }) {
-  const { state, fridayDrop } = milestone
-
+function RailNode({ state, fridayDrop }: { state: DerivedState; fridayDrop?: boolean }) {
   if (fridayDrop) {
     return (
       <span
@@ -30,32 +31,35 @@ function RailNode({ milestone }: { milestone: Milestone }) {
         "relative z-10 mt-3 flex size-7 items-center justify-center rounded-full",
         state === "done" && "bg-foreground text-white",
         state === "current" && "bg-brand text-white lp-glow",
+        state === "available" && "border-2 border-brand bg-white",
         state === "locked" && "border border-line bg-card text-muted-foreground",
       )}
     >
       {state === "done" && <Check className="size-3.5" strokeWidth={3} />}
       {state === "current" && <span className="size-2 rounded-full bg-white" />}
+      {state === "available" && <span className="size-2 rounded-full bg-brand" />}
       {state === "locked" && <Lock className="size-3" />}
     </span>
   )
 }
 
 function RailLine({
-  milestone,
+  state,
   isFirst,
   isLast,
 }: {
-  milestone: Milestone
+  state: DerivedState
   isFirst: boolean
   isLast: boolean
 }) {
-  const { state } = milestone
   const color =
     state === "done"
       ? "bg-brand"
       : state === "current"
         ? "bg-gradient-to-b from-brand to-line"
-        : "bg-line"
+        : state === "available"
+          ? "bg-brand/40"
+          : "bg-line"
 
   return (
     <span
@@ -70,9 +74,11 @@ function RailLine({
 }
 
 export function WeekSection({ week, index }: { week: Week; index: number }) {
+  const { weekVM, milestoneState } = useJourney()
+  const wvm = weekVM(week.id)
+
   return (
     <section className="mt-12 first:mt-0">
-
       {/* Monday re-entry callout (Week 2 & 3) */}
       {week.mondayReentry && (
         <div className="mb-5 rounded-lg border border-line bg-muted px-4 py-3">
@@ -84,10 +90,13 @@ export function WeekSection({ week, index }: { week: Week; index: number }) {
       )}
 
       {/* Stage header */}
-      <div className="flex items-start gap-4">
+      <div className={cn("flex items-start gap-4", !wvm.unlocked && "opacity-60")}>
         <span
           aria-hidden
-          className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-foreground text-sm font-bold text-white"
+          className={cn(
+            "flex size-9 shrink-0 items-center justify-center rounded-xl text-sm font-bold",
+            wvm.unlocked ? "bg-foreground text-white" : "border border-line bg-card text-muted-foreground",
+          )}
         >
           {index + 1}
         </span>
@@ -100,7 +109,7 @@ export function WeekSection({ week, index }: { week: Week; index: number }) {
               <h2 className="text-balance text-xl font-bold text-foreground">{week.theme}</h2>
             </div>
             <span className="mt-1 shrink-0 text-sm font-semibold text-brand">
-              {week.done}/{week.total} done
+              {wvm.done}/{wvm.total} done
             </span>
           </div>
           <p className="mt-2 max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground">
@@ -111,21 +120,24 @@ export function WeekSection({ week, index }: { week: Week; index: number }) {
 
       {/* Trajectory rail + milestones */}
       <ul className="relative mt-5">
-        {week.milestones.map((milestone, i) => (
-          <li key={milestone.id} className="relative flex gap-4 pb-3 last:pb-0">
-            <div className="relative flex w-8 shrink-0 justify-center">
-              <RailLine
-                milestone={milestone}
-                isFirst={i === 0}
-                isLast={i === week.milestones.length - 1}
-              />
-              <RailNode milestone={milestone} />
-            </div>
-            <div className="min-w-0 flex-1">
-              <MilestoneCard milestone={milestone} />
-            </div>
-          </li>
-        ))}
+        {week.milestones.map((milestone, i) => {
+          const state = milestoneState(milestone.id)
+          return (
+            <li key={milestone.id} className="relative flex gap-4 pb-3 last:pb-0">
+              <div className="relative flex w-8 shrink-0 justify-center">
+                <RailLine
+                  state={state}
+                  isFirst={i === 0}
+                  isLast={i === week.milestones.length - 1}
+                />
+                <RailNode state={state} fridayDrop={milestone.fridayDrop} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <MilestoneCard milestone={milestone} />
+              </div>
+            </li>
+          )
+        })}
       </ul>
 
       {/* End-of-week reflection */}
@@ -137,7 +149,6 @@ export function WeekSection({ week, index }: { week: Week; index: number }) {
           <p className="text-[13px] leading-relaxed text-foreground">{week.reflection}</p>
         </div>
       )}
-
     </section>
   )
 }

@@ -3,12 +3,14 @@
 import { useState } from "react"
 import { Check, ChevronDown, ChevronUp, Lightbulb, Rocket } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type { Milestone, Subtopic } from "@/lib/journey-data"
+import { useJourney, type DerivedState } from "@/lib/journey-store"
+import type { Milestone, TaskVM } from "@/lib/journey-store"
 
-function StateBadge({ state }: { state: Milestone["state"] }) {
-  const map = {
+function StateBadge({ state }: { state: DerivedState }) {
+  const map: Record<DerivedState, { label: string; className: string }> = {
     done: { label: "Done", className: "bg-foreground text-white" },
     current: { label: "In progress", className: "bg-brand text-white" },
+    available: { label: "To do", className: "border border-brand/40 bg-brand-muted text-brand" },
     locked: { label: "Upcoming", className: "bg-line text-[#433f3f]" },
   }
   const { label, className } = map[state]
@@ -19,34 +21,65 @@ function StateBadge({ state }: { state: Milestone["state"] }) {
   )
 }
 
-function SubtopicRow({ item, locked }: { item: Subtopic; locked: boolean }) {
+function TaskRow({
+  task,
+  milestoneId,
+  locked,
+}: {
+  task: TaskVM
+  milestoneId: string
+  locked: boolean
+}) {
+  const { toggleTask } = useJourney()
   return (
-    <li className={cn("flex items-center gap-2.5", locked && "opacity-50")}>
-      <span
-        aria-hidden
+    <li>
+      <button
+        type="button"
+        disabled={locked}
+        onClick={(e) => {
+          e.stopPropagation()
+          toggleTask(milestoneId, task.key)
+        }}
         className={cn(
-          "flex size-4 shrink-0 items-center justify-center rounded-[5px] border transition-colors",
-          item.checked ? "border-brand bg-brand text-white" : "border-line bg-card",
+          "flex w-full items-center gap-2.5 text-left",
+          locked ? "cursor-not-allowed opacity-50" : "cursor-pointer",
         )}
       >
-        {item.checked && <Check className="size-3" strokeWidth={3} />}
-      </span>
-      <span
-        className={cn(
-          "text-[13px]",
-          item.checked ? "text-muted-foreground line-through" : "text-foreground",
-        )}
-      >
-        {item.label}
-      </span>
+        <span
+          aria-hidden
+          className={cn(
+            "flex size-4 shrink-0 items-center justify-center rounded-[5px] border transition-colors",
+            task.checked ? "border-brand bg-brand text-white" : "border-line bg-card",
+          )}
+        >
+          {task.checked && <Check className="size-3" strokeWidth={3} />}
+        </span>
+        <span
+          className={cn(
+            "text-[13px]",
+            task.checked ? "text-muted-foreground line-through" : "text-foreground",
+          )}
+        >
+          {task.label}
+        </span>
+      </button>
     </li>
   )
 }
 
-function ExpandedContent({ milestone }: { milestone: Milestone }) {
+function ExpandedContent({
+  milestone,
+  state,
+}: {
+  milestone: Milestone
+  state: DerivedState
+}) {
+  const { getTasks } = useJourney()
+  const tasks = getTasks(milestone)
+  const locked = state === "locked"
+
   return (
     <div className="mt-4 space-y-4 border-t border-line pt-4">
-
       {/* Inputs */}
       {milestone.inputs && milestone.inputs.length > 0 && (
         <div>
@@ -98,25 +131,21 @@ function ExpandedContent({ milestone }: { milestone: Milestone }) {
         </div>
       )}
 
-      {/* Checklist */}
-      {milestone.subtopics && milestone.subtopics.length > 0 && (
+      {/* Checklist — interactive */}
+      {tasks.length > 0 && (
         <div>
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
             Checklist
           </p>
           <ul className="space-y-2">
-            {milestone.subtopics.map((item) => (
-              <SubtopicRow
-                key={item.type}
-                item={item}
-                locked={milestone.state === "locked"}
-              />
+            {tasks.map((task) => (
+              <TaskRow key={task.key} task={task} milestoneId={milestone.id} locked={locked} />
             ))}
           </ul>
         </div>
       )}
 
-      {/* Complementary (Friday drops) */}
+      {/* Complementary */}
       {milestone.complementary && milestone.complementary.length > 0 && (
         <div>
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -156,66 +185,59 @@ function ExpandedContent({ milestone }: { milestone: Milestone }) {
   )
 }
 
-function FridayDropCard({ milestone }: { milestone: Milestone }) {
-  const locked = milestone.state === "locked"
-  const hasContent = !!(milestone.inputs || milestone.tip || milestone.complementary)
-  const [open, setOpen] = useState(milestone.state === "done")
-
-  return (
-    <article
-      className={cn(
-        "group relative overflow-hidden rounded-xl border border-brand/30 bg-brand-muted/40 px-5 py-4 transition-all duration-200",
-        locked ? "opacity-60" : "cursor-pointer hover:-translate-y-0.5 hover:shadow-md",
-      )}
-      onClick={() => hasContent && !locked && setOpen((o) => !o)}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="flex items-center gap-2 text-[15px] font-semibold text-foreground">
-          <Rocket className="size-4 shrink-0 text-brand" />
-          {milestone.title}
-        </h3>
-        <div className="flex shrink-0 items-center gap-2">
-          <span className="rounded-full border border-brand/40 bg-brand-muted px-2.5 py-0.5 text-[11px] font-semibold text-brand">
-            Friday Drop
-          </span>
-          {hasContent && !locked && (
-            <span className="text-muted-foreground">
-              {open ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
-            </span>
-          )}
-        </div>
-      </div>
-      <p className="mt-2 text-pretty text-[13px] leading-relaxed text-muted-foreground">
-        {milestone.description}
-      </p>
-      {locked && (
-        <p className="mt-2 text-[12px] italic text-muted-foreground">
-          Complete all milestones above to unlock this drop.
-        </p>
-      )}
-      {open && !locked && <ExpandedContent milestone={milestone} />}
-    </article>
-  )
-}
-
 export function MilestoneCard({ milestone }: { milestone: Milestone }) {
-  if (milestone.fridayDrop) {
-    return <FridayDropCard milestone={milestone} />
-  }
-
-  const { state } = milestone
-  const hasContent = !!(milestone.inputs || milestone.tip || milestone.scenarios)
+  const { milestoneState } = useJourney()
+  const state = milestoneState(milestone.id)
+  const locked = state === "locked"
   const [open, setOpen] = useState(state === "current")
+
+  if (milestone.fridayDrop) {
+    return (
+      <article
+        className={cn(
+          "group relative overflow-hidden rounded-xl border border-brand/30 bg-brand-muted/40 px-5 py-4 transition-all duration-200",
+          locked ? "opacity-60" : "cursor-pointer hover:-translate-y-0.5 hover:shadow-md",
+        )}
+        onClick={() => !locked && setOpen((o) => !o)}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="flex items-center gap-2 text-[15px] font-semibold text-foreground">
+            <Rocket className="size-4 shrink-0 text-brand" />
+            {milestone.title}
+          </h3>
+          <div className="flex shrink-0 items-center gap-2">
+            <span className="rounded-full border border-brand/40 bg-brand-muted px-2.5 py-0.5 text-[11px] font-semibold text-brand">
+              Friday Drop
+            </span>
+            {!locked && (
+              <span className="text-muted-foreground">
+                {open ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
+              </span>
+            )}
+          </div>
+        </div>
+        <p className="mt-2 text-pretty text-[13px] leading-relaxed text-muted-foreground">
+          {milestone.description}
+        </p>
+        {locked && (
+          <p className="mt-2 text-[12px] italic text-muted-foreground">
+            Complete all milestones above to unlock this drop.
+          </p>
+        )}
+        {open && !locked && <ExpandedContent milestone={milestone} state={state} />}
+      </article>
+    )
+  }
 
   return (
     <article
       className={cn(
         "group relative overflow-hidden rounded-xl border bg-card px-5 py-4 shadow-sm transition-all duration-200",
         state === "current" ? "border-brand shadow-md" : "border-line",
-        state === "locked" && "opacity-60",
-        hasContent && "cursor-pointer hover:-translate-y-0.5 hover:shadow-md",
+        locked && "opacity-60",
+        !locked && "cursor-pointer hover:-translate-y-0.5 hover:shadow-md",
       )}
-      onClick={() => hasContent && setOpen((o) => !o)}
+      onClick={() => !locked && setOpen((o) => !o)}
     >
       {/* Header row */}
       <div className="flex items-start justify-between gap-3">
@@ -227,7 +249,7 @@ export function MilestoneCard({ milestone }: { milestone: Milestone }) {
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <StateBadge state={state} />
-          {hasContent && (
+          {!locked && (
             <span className="text-muted-foreground">
               {open ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
             </span>
@@ -235,18 +257,12 @@ export function MilestoneCard({ milestone }: { milestone: Milestone }) {
         </div>
       </div>
 
-      {/* Description — always visible, full body text */}
-      <p
-        className={cn(
-          "mt-1.5 text-pretty text-[13px] leading-relaxed text-muted-foreground",
-          state === "done" && "opacity-90",
-        )}
-      >
+      {/* Description — always visible */}
+      <p className="mt-1.5 text-pretty text-[13px] leading-relaxed text-muted-foreground">
         {milestone.description}
       </p>
 
-      {/* Expanded: inputs → scenarios → checklist → tip */}
-      {open && <ExpandedContent milestone={milestone} />}
+      {open && !locked && <ExpandedContent milestone={milestone} state={state} />}
     </article>
   )
 }
