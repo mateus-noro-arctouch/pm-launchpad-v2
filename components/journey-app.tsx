@@ -87,24 +87,13 @@ export function JourneyApp() {
               <Rocket className="mx-auto size-10 text-brand" />
             </span>
             <h2 className="mt-4 text-xl font-bold text-white">
-              {launched ? "Ready for launch" : "Launch"}
+              {launched ? "Cleared for launch" : "Launch"}
             </h2>
-            <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-white/60">
+            <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-white/60">
               {launched
-                ? "All three stages complete. You're cleared for launch — time to join a real project."
+                ? "Congratulations on completing all three stages — you're cleared for launch. You can still reach out to your buddy anytime, and your manager is there for you too."
                 : "Complete all three stages to launch."}
             </p>
-            <span
-              className={
-                "mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold " +
-                (launched
-                  ? "bg-brand text-white"
-                  : "cursor-not-allowed bg-white/10 text-white/40")
-              }
-            >
-              <Rocket className="size-4" />
-              {launched ? "Launch" : "Locked until launch"}
-            </span>
           </div>
         </section>
       </div>

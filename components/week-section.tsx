@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, Lock, Rocket } from "lucide-react"
+import { Check, History, Lock, Rocket } from "lucide-react"
 import { MilestoneCard } from "@/components/milestone-card"
 import { cn } from "@/lib/utils"
 import { useJourney, type DerivedState } from "@/lib/journey-store"
@@ -12,9 +12,9 @@ function RailNode({ state, fridayDrop }: { state: DerivedState; fridayDrop?: boo
       <span
         aria-hidden
         className={cn(
-          "relative z-10 mt-3 flex size-7 items-center justify-center rounded-full",
+          "relative z-10 mt-3 flex size-7 items-center justify-center rounded-full ring-4 ring-background",
           state === "locked"
-            ? "border border-line bg-card text-brand/40"
+            ? "border border-line bg-white text-brand/40"
             : "bg-brand text-white",
           state === "current" && "lp-glow",
         )}
@@ -28,11 +28,11 @@ function RailNode({ state, fridayDrop }: { state: DerivedState; fridayDrop?: boo
     <span
       aria-hidden
       className={cn(
-        "relative z-10 mt-3 flex size-7 items-center justify-center rounded-full",
+        "relative z-10 mt-3 flex size-7 items-center justify-center rounded-full ring-4 ring-background",
         state === "done" && "bg-foreground text-white",
         state === "current" && "bg-brand text-white lp-glow",
         state === "available" && "border-2 border-brand bg-white",
-        state === "locked" && "border border-line bg-card text-muted-foreground",
+        state === "locked" && "border border-line bg-white text-muted-foreground",
       )}
     >
       {state === "done" && <Check className="size-3.5" strokeWidth={3} />}
@@ -79,16 +79,6 @@ export function WeekSection({ week, index }: { week: Week; index: number }) {
 
   return (
     <section className="mt-12 first:mt-0">
-      {/* Monday re-entry callout (Week 2 & 3) */}
-      {week.mondayReentry && (
-        <div className="mb-5 rounded-lg border border-line bg-muted px-4 py-3">
-          <p className="text-[13px] leading-relaxed text-muted-foreground">
-            <span className="font-semibold text-foreground">Monday re-entry — </span>
-            {week.mondayReentry}
-          </p>
-        </div>
-      )}
-
       {/* Stage header */}
       <div className={cn("flex items-start gap-4", !wvm.unlocked && "opacity-60")}>
         <span
@@ -115,6 +105,17 @@ export function WeekSection({ week, index }: { week: Week; index: number }) {
           <p className="mt-2 max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground">
             {week.description}
           </p>
+
+          {/* Monday re-entry — recap from previous week (Week 2 & 3) */}
+          {week.mondayReentry && (
+            <div className="mt-3 flex items-start gap-2.5 rounded-lg border border-line bg-muted px-4 py-3">
+              <History className="mt-0.5 size-4 shrink-0 text-brand" />
+              <p className="text-[13px] leading-relaxed text-muted-foreground">
+                <span className="font-semibold text-foreground">Monday re-entry — </span>
+                {week.mondayReentry}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
