@@ -44,10 +44,10 @@ function LaunchSidebar() {
         className="lp-rocket-launch absolute left-1/2 flex flex-col items-center"
         style={{ transform: "translateX(-50%)" }}
       >
-        <Rocket className="size-5 -rotate-45 text-brand drop-shadow-[0_0_8px_rgba(255,131,0,0.7)]" />
+        <Rocket className="size-10 -rotate-45 text-brand drop-shadow-[0_0_14px_rgba(255,131,0,0.7)]" />
         <span
           aria-hidden
-          className="lp-flame -mt-0.5 mx-auto h-3.5 w-1 rounded-full"
+          className="lp-flame -mt-1 mx-auto h-7 w-2.5 rounded-full"
           style={{ background: "linear-gradient(to bottom, #FF8300, #fbbf24, transparent)" }}
         />
       </div>
@@ -55,16 +55,16 @@ function LaunchSidebar() {
       {/* Liftoff glow at pad */}
       <span
         aria-hidden
-        className="lp-liftoff-glow absolute bottom-[13%] left-1/2 size-8 rounded-full blur-lg"
-        style={{ background: "rgba(255,131,0,0.55)", transform: "translateX(-50%)" }}
+        className="lp-liftoff-glow absolute bottom-[13%] left-1/2 size-16 rounded-full blur-xl"
+        style={{ background: "rgba(255,131,0,0.5)", transform: "translateX(-50%)" }}
       />
 
       {/* Launch pad structure */}
-      <div aria-hidden className="absolute inset-x-0 bottom-0 flex flex-col items-center pb-5">
-        <span className="h-7 w-px bg-white/20" />
-        <span className="h-1 w-10 rounded-full bg-white/50" />
-        <span className="mt-0.5 h-0.5 w-14 rounded-full bg-white/20" />
-        <span className="mt-0.5 h-px w-full bg-white/5" />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 flex flex-col items-center pb-7">
+        <span className="h-12 w-0.5 bg-white/25" />
+        <span className="h-2 w-16 rounded-full bg-white/50" />
+        <span className="mt-1 h-1 w-24 rounded-full bg-white/20" />
+        <span className="mt-1 h-px w-full bg-white/8" />
       </div>
     </div>
   )
@@ -86,8 +86,8 @@ export function WelcomeClient() {
 
   return (
     <main className="flex min-h-screen">
-      {/* Left sidebar — thin dark strip with rocket animation, always visible */}
-      <aside className="flex w-16 shrink-0 flex-col sm:w-20">
+      {/* Left sidebar — dark strip with rocket animation, always visible */}
+      <aside className="flex w-48 shrink-0 flex-col sm:w-56">
         <div className="sticky top-0 h-screen">
           <LaunchSidebar />
         </div>
