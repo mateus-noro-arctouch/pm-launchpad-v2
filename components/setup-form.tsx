@@ -108,7 +108,7 @@ export function SetupForm() {
                   </button>
                 </div>
                 <p className="mt-1.5 text-[11px] text-muted-foreground">
-                  Share this link with the PM and their buddy — both can use it to follow the journey.
+                  Share this link with the new PM. Both of you can use it to follow the journey — just open the same link anytime. Need to onboard another PM? Come back here and generate a new Launchpad.
                 </p>
               </div>
 
