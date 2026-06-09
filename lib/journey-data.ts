@@ -51,16 +51,6 @@ const inputs = (checked: boolean): Subtopic => ({
   label: "Read the inputs",
   checked,
 })
-const deliverable = (checked: boolean): Subtopic => ({
-  type: "deliverable",
-  label: "Deliverable submitted",
-  checked,
-})
-const buddy = (checked: boolean): Subtopic => ({
-  type: "buddy",
-  label: "Session with buddy done",
-  checked,
-})
 
 export const journey: Week[] = [
   {
@@ -171,7 +161,10 @@ export const journey: Week[] = [
         description:
           "The project page is the single source of truth for everything related to the project — meetings, team info, links, context, and all your deliverables. Creating it first is a mandatory habit.",
         state: "done",
-        subtopics: [inputs(true), deliverable(true)],
+        subtopics: [
+          inputs(true),
+          { type: "deliverable", label: "Create your Project Page in Notion (mirror the portfolio template)", checked: true },
+        ],
         inputs: [
           { label: "Initial project activities", url: "https://www.notion.so/35adb8adf611817fba1fccbcb6b0c944" },
           { label: "Project communication & organization", url: "https://www.notion.so/35adb8adf61181dba528e7b3c49493f9" },
@@ -187,7 +180,11 @@ export const journey: Week[] = [
         description:
           "The sales handoff is where you take ownership of the project from the sales team. Knowing what to ask and how to capture the right information sets the foundation for everything that follows.",
         state: "current",
-        subtopics: [inputs(true), deliverable(false), buddy(false)],
+        subtopics: [
+          inputs(false),
+          { type: "deliverable", label: "File your handoff questions on the Project Page (Meetings tab)", checked: false },
+          { type: "buddy", label: "Run the sales handoff meeting with your buddy", checked: false },
+        ],
         inputs: [
           { label: "Sales handoff meeting — what the PM should do", url: "https://www.notion.so/80af79060df0439e904c825e24499631" },
           { label: "ArcTouch Process — Sales Handoff", url: "https://www.notion.so/9ba523d45a1747359ed71e5ec3077727" },
@@ -202,11 +199,16 @@ export const journey: Week[] = [
         description:
           "The kickoffs — internal and client-facing — are where you align the team and set expectations. Preparing a solid deck and running the meeting with confidence is one of the most visible things a PM does early in a project.",
         state: "locked",
-        subtopics: [inputs(false), deliverable(false), buddy(false)],
+        subtopics: [
+          inputs(false),
+          { type: "deliverable", label: "Submit your kickoff deck and file it on the Project Page", checked: false },
+          { type: "buddy", label: "Present the client kickoff to your buddy", checked: false },
+        ],
         inputs: [
           { label: "Kicking Off Projects — overview card", url: "https://www.notion.so/35adb8adf611814cb4f5e4bf4e3af429" },
           { label: "Internal Kick-off", url: "https://www.notion.so/5cf97610fe83499697d759c17d42d76a" },
           { label: "Client Kick-off", url: "https://www.notion.so/75f2d65cba3841de86fafc8f5e50e462" },
+          { label: "ArcTouch Process — Implementation (sprint prep & execution)", url: "https://www.notion.so/dd8b0549c9bd4fa6a5a0386c1d202631" },
         ],
         tip: "Read the inputs, then build your kickoff deck using the template. Use what you learned in the handoff session to fill in the project context. Run the client kickoff with your buddy.",
       },
@@ -252,13 +254,20 @@ export const journey: Week[] = [
         description:
           "Writing a status report at the start of the week trains you to communicate where the project stands before a big milestone. It's one of the most frequent and important PM communication tools.",
         state: "locked",
-        subtopics: [inputs(false), deliverable(false)],
+        subtopics: [
+          inputs(false),
+          { type: "deliverable", label: "Send the one-page status report to your buddy and file it on the Project Page", checked: false },
+        ],
         inputs: [
           { label: "Writing Effective Project Status Reports", url: "https://www.notion.so/26c1f443c4ea49399ba1a421af02d05b" },
           { label: "Create project Slack channels — management channel usage", url: "https://www.notion.so/2aedb8adf611809fa9f3ee588fbec245" },
           { label: "One-page status report template (Figma)", url: "https://www.figma.com/design/wLCAT3wjRzWvFVkJKPE7Eb/Template---One-page-report" },
+          { label: "Budget Tracking", url: "https://www.notion.so/1fd4312c09b14d3bb9283d68cb5bf9da" },
+          { label: "Billing types, EAC, and Margin concepts", url: "https://www.notion.so/ecc18b28b1f344f6a906456f193a2491" },
+          { label: "How Finances Work in ArcTouch Projects", url: "https://www.notion.so/c6e8c74ce4f7442c9f04e2afd05a3284" },
+          { label: "Monthly invoicing process", url: "https://www.notion.so/9ac9f3f1ae734982811c5e749b621848" },
         ],
-        tip: "Read the inputs, then write your status report for the Lonely Planet project based on where things stand. Keep it to one page. Send it to your buddy.",
+        tip: "A status report is not just a task list — it's a financial and delivery signal. Read the finance docs to understand EAC, margin, and invoicing before writing. Then fill in the template and send it to your buddy.",
       },
       {
         id: "w3-m2",
@@ -267,10 +276,16 @@ export const journey: Week[] = [
         description:
           "The USM is the backbone of how ArcTouch structures and scopes projects. Presenting it to your buddy is the capstone practice moment of the onboarding. You enter this milestone already familiar with the Lonely Planet users from the discovery material.",
         state: "locked",
-        subtopics: [inputs(false), deliverable(false), buddy(false)],
+        subtopics: [
+          inputs(false),
+          { type: "deliverable", label: "Submit your USM + MVP prioritization in Figma and file it on the Project Page", checked: false },
+          { type: "buddy", label: "Present the USM to your buddy — walk through scope decisions and trade-offs", checked: false },
+        ],
         inputs: [
           { label: "User Story Mapping — what it is, why we use it, step-by-step", url: "https://www.notion.so/1e0db8adf6118004aa61c709d730f776" },
           { label: "ArcTouch Process — Running a Project", url: "https://www.notion.so/35adb8adf61181c3ba41de594fefbb86" },
+          { label: "Backlog Refinement Process", url: "https://www.notion.so/e89d628c1bb34e34b34a1304fbc08d9f" },
+          { label: "Calculating Sprint Capacity", url: "https://www.notion.so/6dca26a43d8346329f4109aa2a85c61d" },
           { label: "Lonely Planet — Figma team (personas + pain points from Week 2)", url: "https://www.figma.com/files/1324018082588945788/team/1508821500807554926?fuid=1010227290774979230" },
           { label: "Resources Allocation Plan (staffing context)", url: "https://www.notion.so/f75ff8938785431291db005b95e2be46" },
         ],
@@ -281,24 +296,20 @@ export const journey: Week[] = [
         code: "M3",
         title: "Project challenge",
         description:
-          "Real projects never go exactly to plan. This milestone puts you in a realistic situation and asks you to respond the way a PM would: with a clear action plan and a concise message to the team.",
+          "Real projects don't go exactly to plan. This milestone simulates real-world pressure: you'll pick one of three realistic scenarios — unexpected team changes, delivery blockers, or budget risk — and respond the way a PM does. You assess what's happening, structure a plan, and communicate it clearly to the right stakeholders. The goal is to practice staying calm, direct, and solution-oriented under pressure.",
         state: "locked",
-        subtopics: [inputs(false), deliverable(false)],
+        subtopics: [
+          inputs(false),
+          { type: "deliverable", label: "File your action plan + management channel message on the Project Page", checked: false },
+        ],
         inputs: [
-          { label: "ArcTouch Process — Implementation (sprint prep & execution)", url: "https://www.notion.so/dd8b0549c9bd4fa6a5a0386c1d202631" },
           { label: "Facilitating Effective Daily Meetings", url: "https://www.notion.so/1857fe74bfeb484faf3dd7d4305e8e74" },
           { label: "Facilitating Effective Sprint Plannings", url: "https://www.notion.so/b8f3daade0734fba8b56264e178e3a58" },
           { label: "Facilitating Effective Sprint Reviews / Demo meetings", url: "https://www.notion.so/b8409d19e5524553935aff80079428ec" },
           { label: "Facilitating Effective Sprint Retrospectives", url: "https://www.notion.so/ae782a9bfd6b4bac9ac85a4a4cebcd98" },
-          { label: "Backlog Refinement Process", url: "https://www.notion.so/e89d628c1bb34e34b34a1304fbc08d9f" },
-          { label: "Calculating Sprint Capacity", url: "https://www.notion.so/6dca26a43d8346329f4109aa2a85c61d" },
-          { label: "Budget Tracking", url: "https://www.notion.so/1fd4312c09b14d3bb9283d68cb5bf9da" },
-          { label: "Billing types, EAC, and Margin concepts", url: "https://www.notion.so/ecc18b28b1f344f6a906456f193a2491" },
-          { label: "How Finances Work in ArcTouch Projects", url: "https://www.notion.so/c6e8c74ce4f7442c9f04e2afd05a3284" },
-          { label: "Monthly invoicing process", url: "https://www.notion.so/9ac9f3f1ae734982811c5e749b621848" },
           { label: "Jira Guide — reports (burndown, velocity, flow)", url: "https://www.notion.so/2a0db8adf61180dfbc34e8a849a877d6" },
         ],
-        tip: "Assess the situation, structure an action plan, and write a clear message to send on the management channel (your buddy, in this case). Be direct and solution-oriented.",
+        tip: "Your management channel message should follow this structure — (1) Situation: what happened, what's at risk and why it matters. (2) Plan: what you're doing about it, in concrete steps. (3) Who you need: name the stakeholders you're pulling in and what you need from them. (4) Ask or signal: are you requesting a decision, asking for approval, or just keeping everyone informed? Keep it under 150 words. Direct, no drama, solution-first.",
         scenarios: [
           {
             id: "A",
@@ -315,8 +326,8 @@ export const journey: Week[] = [
         ],
         complementary: [
           { label: "AI for PMs — Workshop Series (continued)", url: "https://www.notion.so/f445ae4ff8804087b5cf44211e127dae" },
-          { label: "Wrapping up projects", url: "https://www.notion.so/35adb8adf611814b9508eb2e59e9aa32" },
           { label: "ArcTouch AI Academy", url: "https://www.notion.so/321db8adf611811fa7adee37666d1844" },
+          { label: "Wrapping up projects", url: "https://www.notion.so/35adb8adf611814b9508eb2e59e9aa32" },
         ],
       },
     ],
