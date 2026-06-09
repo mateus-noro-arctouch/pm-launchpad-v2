@@ -158,11 +158,10 @@
   50% { opacity: 1; }
 }
 @keyframes lp-launch {
-  0%   { bottom: 12%; opacity: 0; transform: translateX(-50%) scale(0.96); }
-  8%   { opacity: 1; }
-  14%  { transform: translateX(-50%) scale(1); }
-  82%  { opacity: 1; }
-  100% { bottom: 94%; opacity: 0; transform: translateX(-50%) scale(1); }
+  0%   { bottom: 22%; opacity: 0; transform: translateX(-50%); }
+  3%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { bottom: 95%; opacity: 0; transform: translateX(-50%); }
 }
 @keyframes lp-flame {
   0%, 100% { transform: scaleY(0.7) scaleX(0.9); opacity: 0.8; }

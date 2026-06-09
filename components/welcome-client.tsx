@@ -3,6 +3,77 @@
 import { useSearchParams, useRouter } from "next/navigation"
 import { Rocket, Users, Compass, Target, ArrowRight } from "lucide-react"
 
+function RocketSVG() {
+  return (
+    <svg viewBox="0 0 30 120" width="30" height="120" fill="none" aria-hidden>
+      {/* Nose cone */}
+      <path d="M15 1 C15 1 22 22 22 30 L8 30 C8 22 15 1 15 1Z" fill="#d8d8d8" />
+      {/* Body */}
+      <rect x="8" y="30" width="14" height="60" rx="1.5" fill="#c8c8c8" />
+      {/* Fairing seam line */}
+      <line x1="15" y1="30" x2="15" y2="90" stroke="#b0b0b0" strokeWidth="0.5" />
+      {/* ArcTouch orange band */}
+      <rect x="8" y="46" width="14" height="5" fill="#FF8300" opacity="0.9" />
+      {/* Small window */}
+      <circle cx="15" cy="36" r="2.5" fill="#8bbfd4" opacity="0.8" />
+      {/* Interstage (slightly wider band) */}
+      <rect x="7" y="88" width="16" height="6" rx="1" fill="#aaaaaa" />
+      {/* Engine section */}
+      <rect x="7" y="94" width="16" height="10" rx="1" fill="#999999" />
+      {/* Grid fins (top of engine section) */}
+      <rect x="3" y="85" width="4" height="7" rx="0.5" fill="#888" />
+      <rect x="23" y="85" width="4" height="7" rx="0.5" fill="#888" />
+      {/* Engine bell — widens toward bottom */}
+      <path d="M11 104 L8 116 L22 116 L19 104 Z" fill="#777777" />
+      {/* Engine nozzle rim */}
+      <ellipse cx="15" cy="116" rx="7" ry="2" fill="#666" />
+      {/* Landing legs (folded flat against body) */}
+      <path d="M8 100 L2 114 L8 106 Z" fill="#707070" />
+      <path d="M22 100 L28 114 L22 106 Z" fill="#707070" />
+    </svg>
+  )
+}
+
+function LaunchpadSVG() {
+  return (
+    <svg viewBox="0 0 120 90" width="100%" fill="none" aria-hidden>
+      {/* Hold-down clamp arms */}
+      <rect x="47" y="4" width="5" height="22" rx="1" fill="#5a5a5a" />
+      <rect x="68" y="4" width="5" height="22" rx="1" fill="#5a5a5a" />
+      <rect x="45" y="4" width="9" height="3" rx="1" fill="#6a6a6a" />
+      <rect x="66" y="4" width="9" height="3" rx="1" fill="#6a6a6a" />
+
+      {/* Launch table platform */}
+      <rect x="28" y="26" width="64" height="9" rx="2" fill="#4a4a4a" />
+      {/* Flame duct opening in center of platform */}
+      <rect x="50" y="27" width="20" height="7" rx="1" fill="#222" />
+
+      {/* Main support legs — angled outward like a truss */}
+      <line x1="34" y1="35" x2="14" y2="72" stroke="#5a5a5a" strokeWidth="5" strokeLinecap="round" />
+      <line x1="86" y1="35" x2="106" y2="72" stroke="#5a5a5a" strokeWidth="5" strokeLinecap="round" />
+      {/* Inner legs */}
+      <line x1="44" y1="35" x2="34" y2="72" stroke="#505050" strokeWidth="3.5" strokeLinecap="round" />
+      <line x1="76" y1="35" x2="86" y2="72" stroke="#505050" strokeWidth="3.5" strokeLinecap="round" />
+
+      {/* Cross bracing between legs */}
+      <line x1="14" y1="56" x2="34" y2="56" stroke="#404040" strokeWidth="2" />
+      <line x1="86" y1="56" x2="106" y2="56" stroke="#404040" strokeWidth="2" />
+      <line x1="16" y1="42" x2="36" y2="60" stroke="#383838" strokeWidth="1.5" />
+      <line x1="104" y1="42" x2="84" y2="60" stroke="#383838" strokeWidth="1.5" />
+
+      {/* Flame deflector wedge below platform */}
+      <path d="M50 33 L42 68 L78 68 L70 33 Z" fill="#1e1e1e" opacity="0.7" />
+
+      {/* Ground base plate */}
+      <rect x="8" y="72" width="104" height="7" rx="2" fill="#3a3a3a" />
+      <rect x="0" y="79" width="120" height="5" rx="1" fill="#2e2e2e" />
+
+      {/* Pipes / umbilical hints on right leg */}
+      <line x1="84" y1="28" x2="100" y2="58" stroke="#FF8300" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.4" />
+    </svg>
+  )
+}
+
 function welcomeKey(name: string, start: string) {
   return `pm-launchpad-welcomed-${encodeURIComponent(name)}-${encodeURIComponent(start)}`
 }
@@ -31,40 +102,36 @@ function LaunchSidebar() {
       {/* Stars */}
       <div aria-hidden className="lp-stars pointer-events-none absolute inset-0 opacity-60" />
 
-      {/* Faint vertical track */}
+      {/* Faint exhaust trail */}
       <span
         aria-hidden
-        className="absolute left-1/2 -translate-x-1/2 top-[5%] bottom-[16%] w-px"
-        style={{ background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent)" }}
+        className="absolute left-1/2 -translate-x-1/2 top-[5%] bottom-[24%] w-px"
+        style={{ background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.06) 80%, transparent)" }}
       />
 
-      {/* Rocket — takes 2 min to rise from pad to top */}
+      {/* Rocket — thin SVG, rises over 2 min */}
       <div
         aria-hidden
         className="lp-rocket-launch absolute left-1/2 flex flex-col items-center"
         style={{ transform: "translateX(-50%)" }}
       >
-        <Rocket className="size-10 -rotate-45 text-brand drop-shadow-[0_0_14px_rgba(255,131,0,0.7)]" />
+        <RocketSVG />
         <span
-          aria-hidden
-          className="lp-flame -mt-1 mx-auto h-7 w-2.5 rounded-full"
-          style={{ background: "linear-gradient(to bottom, #FF8300, #fbbf24, transparent)" }}
+          className="lp-flame -mt-1 mx-auto h-8 w-2.5 rounded-full"
+          style={{ background: "linear-gradient(to bottom, #FF8300, #fbbf24 40%, transparent)" }}
         />
       </div>
 
-      {/* Liftoff glow at pad */}
+      {/* Liftoff glow */}
       <span
         aria-hidden
-        className="lp-liftoff-glow absolute bottom-[13%] left-1/2 size-16 rounded-full blur-xl"
-        style={{ background: "rgba(255,131,0,0.5)", transform: "translateX(-50%)" }}
+        className="lp-liftoff-glow absolute bottom-[21%] left-1/2 size-16 rounded-full blur-xl"
+        style={{ background: "rgba(255,131,0,0.45)", transform: "translateX(-50%)" }}
       />
 
-      {/* Launch pad structure */}
-      <div aria-hidden className="absolute inset-x-0 bottom-0 flex flex-col items-center pb-7">
-        <span className="h-12 w-0.5 bg-white/25" />
-        <span className="h-2 w-16 rounded-full bg-white/50" />
-        <span className="mt-1 h-1 w-24 rounded-full bg-white/20" />
-        <span className="mt-1 h-px w-full bg-white/8" />
+      {/* SpaceX-style launch mount */}
+      <div aria-hidden className="absolute inset-x-0 bottom-0 px-1 pb-1">
+        <LaunchpadSVG />
       </div>
     </div>
   )
