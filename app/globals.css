@@ -158,19 +158,17 @@
   50% { opacity: 1; }
 }
 @keyframes lp-launch {
-  0%   { bottom: -10%; opacity: 0; transform: translateX(-50%); }
-  10%  { bottom: 26%; opacity: 1; transform: translateX(-50%); }
-  88%  { opacity: 1;              transform: translateX(-50%); }
-  95%  { bottom: 96%; opacity: 0; transform: translateX(-50%); }
-  100% { bottom: -10%; opacity: 0; transform: translateX(-50%); }
+  0%   { bottom: -4%; opacity: 1; transform: translateX(-50%); }
+  88%  { opacity: 1; }
+  100% { bottom: 96%; opacity: 0; transform: translateX(-50%); }
 }
 @keyframes lp-flame {
   0%, 100% { transform: scaleY(0.7) scaleX(0.9); opacity: 0.8; }
   50% { transform: scaleY(1.15) scaleX(1.05); opacity: 1; }
 }
 @keyframes lp-liftoff-glow {
-  0%, 4%    { opacity: 0.7; transform: translateX(-50%) scale(1); }
-  14%, 100% { opacity: 0;   transform: translateX(-50%) scale(2.5); }
+  0%, 2%    { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  8%, 100%  { opacity: 0; transform: translateX(-50%) scale(2); }
 }
 
 .lp-float {
