@@ -422,7 +422,7 @@ function MilestoneRow({
 }
 
 /* ─── Week card ─── */
-function WeekCard({ week, weekIndex }: { week: Week; weekIndex: number }) {
+function WeekCard({ week, weekIndex, isActive }: { week: Week; weekIndex: number; isActive: boolean }) {
   const { weekVM } = useJourney()
   const vm = weekVM(week.id)
   const prevStateRef = useRef(vm.state)
@@ -452,9 +452,12 @@ function WeekCard({ week, weekIndex }: { week: Week; weekIndex: number }) {
         "relative flex-shrink-0 overflow-hidden rounded-2xl bg-card transition-all duration-300",
         vm.state === "done"
           ? "border-2 border-brand shadow-[0_4px_28px_rgba(255,131,0,0.18),0_2px_8px_rgba(0,0,0,0.08)]"
-          : "border border-line shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_6px_rgba(0,0,0,0.05)]",
+          : isActive
+          ? "border border-line shadow-[0_8px_32px_rgba(0,0,0,0.14),0_2px_8px_rgba(0,0,0,0.08)]"
+          : "border border-line shadow-none",
         unlocking && "lp-card-unlock",
       )}
+      data-card-snap
       style={{ width: "80vw", scrollSnapAlign: "start" }}
     >
       {/* Lock overlay */}
@@ -548,10 +551,26 @@ function WeekCard({ week, weekIndex }: { week: Week; weekIndex: number }) {
 /* ─── Main V2 app ─── */
 export function JourneyV2App() {
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [activeCardIndex, setActiveCardIndex] = useState(0)
+  const cardsRailRef = useRef<HTMLDivElement>(null)
 
   const handleScroll = useCallback(() => {
     const threshold = Math.max(1, window.innerHeight * 0.65)
     setScrollProgress(clamp(0, window.scrollY / threshold, 1))
+  }, [])
+
+  const handleCardScroll = useCallback(() => {
+    const rail = cardsRailRef.current
+    if (!rail) return
+    const center = rail.scrollLeft + rail.clientWidth / 2
+    const cards = rail.querySelectorAll<HTMLElement>("[data-card-snap]")
+    let closest = 0
+    let minDist = Infinity
+    cards.forEach((card, i) => {
+      const dist = Math.abs(card.offsetLeft + card.offsetWidth / 2 - center)
+      if (dist < minDist) { minDist = dist; closest = i }
+    })
+    setActiveCardIndex(closest)
   }, [])
 
   useEffect(() => {
@@ -609,6 +628,8 @@ export function JourneyV2App() {
             Leading spacer = 10vw - 1rem (gap fills the remaining 1rem before card 1).
           */}
           <div
+            ref={cardsRailRef}
+            onScroll={handleCardScroll}
             className="scrollbar-hide flex gap-4 overflow-x-auto pb-24 pt-4"
             style={{
               scrollSnapType: "x mandatory",
@@ -619,7 +640,7 @@ export function JourneyV2App() {
           >
             <div style={{ width: "calc(10vw - 1rem)", flexShrink: 0 }} aria-hidden />
             {journey.map((week, i) => (
-              <WeekCard key={week.id} week={week} weekIndex={i} />
+              <WeekCard key={week.id} week={week} weekIndex={i} isActive={i === activeCardIndex} />
             ))}
             <div style={{ width: "10vw", flexShrink: 0 }} aria-hidden />
           </div>
