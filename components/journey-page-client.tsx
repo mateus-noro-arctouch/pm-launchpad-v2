@@ -7,8 +7,11 @@ import { JourneyApp } from "@/components/journey-app"
 function formatDate(iso: string): string {
   if (!iso) return ""
   try {
-    const [year, month, day] = iso.split("-")
-    return `${month}/${day}/${year}`
+    return new Date(iso + "T12:00:00").toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
   } catch {
     return iso
   }
