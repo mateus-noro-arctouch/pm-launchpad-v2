@@ -49,31 +49,33 @@ export function SetupForm() {
 
         {/* Steps */}
         <div className="mb-8">
+          {/* Row 1: circles + connector lines — all vertically centered */}
           <div className="flex items-center">
-            {[
-              { n: 1, label: "Set up your account", sub: "Name & start date" },
-              { n: 2, label: "Mission briefing", sub: "How the journey works" },
-              { n: 3, label: "Start your mission", sub: "Begin Week 1" },
-            ].map((step, i) => (
-              <div key={step.n} className="flex flex-1 items-center">
-                <div className="flex flex-col items-center text-center flex-1">
-                  <div className={`flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ring-2 ${
-                    i === 0
-                      ? "bg-brand text-white ring-brand/20"
-                      : "bg-muted text-muted-foreground ring-line"
-                  }`}>
-                    {step.n}
-                  </div>
-                  <p className={`mt-2 text-[13px] font-semibold leading-tight ${i === 0 ? "text-foreground" : "text-muted-foreground"}`}>
-                    {step.label}
-                  </p>
-                  <p className={`mt-0.5 text-[11px] leading-tight ${i === 0 ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
-                    {step.sub}
-                  </p>
+            {[1, 2, 3].map((n, i) => (
+              <>
+                <div key={n} className={`flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ring-2 ${
+                  i === 0 ? "bg-brand text-white ring-brand/20" : "bg-muted text-muted-foreground ring-line"
+                }`}>
+                  {n}
                 </div>
-                {i < 2 && (
-                  <div className="mx-2 mb-7 h-px flex-1 bg-line" />
-                )}
+                {i < 2 && <div key={`line-${i}`} className="h-px flex-1 bg-line mx-2" />}
+              </>
+            ))}
+          </div>
+          {/* Row 2: labels pinned under each circle */}
+          <div className="mt-3 flex">
+            {[
+              { label: "Set up your account", sub: "Name & start date" },
+              { label: "Mission briefing", sub: "How the journey works" },
+              { label: "Start your mission", sub: "Begin Week 1" },
+            ].map((step, i) => (
+              <div key={i} className="flex flex-1 flex-col items-center text-center">
+                <p className={`text-[13px] font-semibold leading-tight ${i === 0 ? "text-foreground" : "text-muted-foreground"}`}>
+                  {step.label}
+                </p>
+                <p className={`mt-0.5 text-[11px] leading-tight ${i === 0 ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
+                  {step.sub}
+                </p>
               </div>
             ))}
           </div>
