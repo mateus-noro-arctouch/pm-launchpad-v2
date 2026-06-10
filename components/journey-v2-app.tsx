@@ -30,7 +30,7 @@ function SpaceStarField() {
         y: `${Math.random() * 100}%`,
         size: Math.random() * 1.8 + 0.5,
         dur: 3 + Math.random() * 5,
-        delay: -(Math.random() * 8), // negative delay starts mid-cycle so stars aren't in sync
+        delay: Math.random() * 5, // positive — star is invisible until its delay fires (first loop starts clean)
         dim: Math.random() > 0.5,
       }))
     )
@@ -59,27 +59,43 @@ function SpacePlanet({
 }: {
   className?: string; size: number; delay: number; colors: string
 }) {
+  // Outer: one-shot fade-in (hidden during delay via backwards fill)
+  // Inner: continuous float (starts after the fade-in delay so the two don't fight)
   return (
-    <div className={cn("absolute pointer-events-none lp-v2-float", className)}
-      style={{ '--float-dur': `${9 + delay * 1.5}s`, animationDelay: `${delay}s` } as React.CSSProperties}
+    <div
+      className={cn("absolute pointer-events-none lp-v2-planet-in", className)}
+      style={{ '--planet-in-delay': `${delay * 0.4}s` } as React.CSSProperties}
     >
       <div
-        style={{ width: size, height: size }}
-        className={cn("rounded-full border border-white/10 bg-gradient-to-br", colors,
-          "shadow-[0_4px_24px_0_rgba(255,255,255,0.06)]")}
-      />
+        className="lp-v2-float"
+        style={{ '--float-dur': `${9 + delay * 1.5}s`, animationDelay: `${delay * 0.4}s` } as React.CSSProperties}
+      >
+        <div
+          style={{ width: size, height: size }}
+          className={cn("rounded-full border border-white/10 bg-gradient-to-br", colors,
+            "shadow-[0_4px_24px_0_rgba(255,255,255,0.06)]")}
+        />
+      </div>
     </div>
   )
 }
 
 function SpaceComet({ delay = 0, topPct = 30 }: { delay?: number; topPct?: number }) {
-  // Total cycle = 22s; comet visible for first ~15% (~3.3s); invisible the rest
-  const cycleDur = 22 + delay * 0.8 // stagger total cycle per comet
+  // Mount the element only after the delay — avoids any CSS fill-mode ambiguity.
+  // Once mounted, the animation starts immediately from opacity: 0 (keyframe 0%).
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), delay * 1000)
+    return () => clearTimeout(t)
+  }, [delay])
+
+  if (!mounted) return null
+
   return (
     <div
       aria-hidden
       className="pointer-events-none absolute right-0 lp-v2-comet"
-      style={{ top: `${topPct}%`, '--comet-dur': `${cycleDur}s`, animationDelay: `${delay}s` } as React.CSSProperties}
+      style={{ top: `${topPct}%`, '--comet-dur': '15s' } as React.CSSProperties}
     >
       <div className="flex items-center">
         <div className="h-2 w-2 rounded-full bg-white shadow-[0_0_10px_4px_rgba(255,255,255,0.45)]" />
@@ -152,8 +168,8 @@ function HeroContent() {
       <SpacePlanet className="right-[28%] bottom-[30%]" size={10} delay={1.4} colors="from-rose-300/15 to-pink-900/10" />
 
       {/* Comets — right to left, staggered */}
-      <SpaceComet delay={1.5} topPct={28} />
-      <SpaceComet delay={16} topPct={58} />
+      <SpaceComet delay={1}  topPct={28} />
+      <SpaceComet delay={5}  topPct={58} />
 
       {/* Foreground content */}
       <div className="relative max-w-lg">
@@ -374,10 +390,12 @@ function MilestoneRow({
                 </p>
                 <ul className="space-y-2">
                   {tasks.map((task) => (
-                    <li key={task.key} className="flex items-center gap-2.5" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        type="button"
-                        onClick={() => toggleTask(milestone.id, task.key)}
+                    <li
+                      key={task.key}
+                      className="flex cursor-pointer items-center gap-2.5 select-none"
+                      onClick={(e) => { e.stopPropagation(); toggleTask(milestone.id, task.key) }}
+                    >
+                      <div
                         className={cn(
                           "flex size-4 shrink-0 items-center justify-center rounded border-2 transition-colors",
                           task.checked
@@ -386,7 +404,7 @@ function MilestoneRow({
                         )}
                       >
                         {task.checked && <Check className="size-2.5 text-white" />}
-                      </button>
+                      </div>
                       <span className={cn("text-sm", task.checked ? "line-through text-muted-foreground" : "text-foreground")}>
                         {task.label}
                       </span>
