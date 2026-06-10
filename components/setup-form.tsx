@@ -48,26 +48,35 @@ export function SetupForm() {
         </div>
 
         {/* Steps */}
-        <div className="mb-8 flex items-start gap-0">
-          {[
-            { n: 1, label: "Set up your account" },
-            { n: 2, label: "Read the mission briefing" },
-            { n: 3, label: "Start your mission" },
-          ].map((step, i) => (
-            <div key={step.n} className="flex flex-1 items-start gap-0">
-              <div className="flex flex-1 flex-col items-center text-center">
-                <div className={`flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${i === 0 ? "bg-brand text-white" : "bg-muted text-muted-foreground"}`}>
-                  {step.n}
+        <div className="mb-8">
+          <div className="flex items-center">
+            {[
+              { n: 1, label: "Set up your account", sub: "Name & start date" },
+              { n: 2, label: "Mission briefing", sub: "How the journey works" },
+              { n: 3, label: "Start your mission", sub: "Begin Week 1" },
+            ].map((step, i) => (
+              <div key={step.n} className="flex flex-1 items-center">
+                <div className="flex flex-col items-center text-center flex-1">
+                  <div className={`flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ring-2 ${
+                    i === 0
+                      ? "bg-brand text-white ring-brand/20"
+                      : "bg-muted text-muted-foreground ring-line"
+                  }`}>
+                    {step.n}
+                  </div>
+                  <p className={`mt-2 text-[13px] font-semibold leading-tight ${i === 0 ? "text-foreground" : "text-muted-foreground"}`}>
+                    {step.label}
+                  </p>
+                  <p className={`mt-0.5 text-[11px] leading-tight ${i === 0 ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
+                    {step.sub}
+                  </p>
                 </div>
-                <p className={`mt-2 text-[11px] leading-snug ${i === 0 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
-                  {step.label}
-                </p>
+                {i < 2 && (
+                  <div className="mx-2 mb-7 h-px flex-1 bg-line" />
+                )}
               </div>
-              {i < 2 && (
-                <div className="mt-3.5 h-px w-full flex-1 bg-line" />
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Form card */}
