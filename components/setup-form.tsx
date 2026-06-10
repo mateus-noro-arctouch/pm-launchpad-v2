@@ -53,9 +53,9 @@ export function SetupForm() {
           <div className="absolute left-[calc(100%/6)] right-[calc(100%/6)] top-[18px] h-px bg-line" />
 
           {[
-            { n: 1, label: "Setup a new launchpad" },
-            { n: 2, label: "Read mission briefing" },
-            { n: 3, label: "Start the mission" },
+            { n: 1, line1: "Setup a new",      line2: "launchpad" },
+            { n: 2, line1: "Read the",         line2: "mission briefing" },
+            { n: 3, line1: "Start the",        line2: "mission" },
           ].map((step, i) => (
             <div key={step.n} className="relative z-10 flex flex-col items-center text-center">
               <div className={`flex size-9 items-center justify-center rounded-full text-sm font-bold ring-2 ${
@@ -64,7 +64,7 @@ export function SetupForm() {
                 {step.n}
               </div>
               <p className={`mt-2.5 text-[13px] font-semibold leading-tight ${i === 0 ? "text-foreground" : "text-muted-foreground"}`}>
-                {step.label}
+                {step.line1}<br />{step.line2}
               </p>
             </div>
           ))}
