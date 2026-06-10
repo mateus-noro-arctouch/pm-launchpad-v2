@@ -47,6 +47,29 @@ export function SetupForm() {
           </p>
         </div>
 
+        {/* Steps */}
+        <div className="mb-8 flex items-start gap-0">
+          {[
+            { n: 1, label: "Set up your account" },
+            { n: 2, label: "Read the mission briefing" },
+            { n: 3, label: "Start your mission" },
+          ].map((step, i) => (
+            <div key={step.n} className="flex flex-1 items-start gap-0">
+              <div className="flex flex-1 flex-col items-center text-center">
+                <div className={`flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${i === 0 ? "bg-brand text-white" : "bg-muted text-muted-foreground"}`}>
+                  {step.n}
+                </div>
+                <p className={`mt-2 text-[11px] leading-snug ${i === 0 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                  {step.label}
+                </p>
+              </div>
+              {i < 2 && (
+                <div className="mt-3.5 h-px w-full flex-1 bg-line" />
+              )}
+            </div>
+          ))}
+        </div>
+
         {/* Form card */}
         <div className="rounded-2xl border border-line bg-card px-8 py-8 shadow-sm">
           <div className="space-y-5">
